@@ -265,6 +265,7 @@
   .improve-box p { margin: 0 0 12px; }
   .improve-box p:last-of-type { margin-bottom: 12px; }
   .video-embed { position: relative; width: 100%; padding-top: 56.25%; border-radius: 8px; overflow: hidden; background: #000; }
+  .video-embed + .video-embed { margin-top: 10px; }
   .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-swatch { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
@@ -615,6 +616,14 @@
     plank: {
       text: "To improve your Plank Time it's important to work on building strength in your core muscles regularly and safely! Use the follow along core workout video here to help you practice at home"
       // youtube: add the link once available — see note below
+    },
+    splits: {
+      text: "To improve on your splits it's important to stretch regularly and safely! Use the follow along stretching videos here to help you practice at home",
+      youtube: [
+        "https://youtu.be/yoWLPgwe9oc?si=kjX9HZuV2F20xubY",
+        "https://youtu.be/o68QhmpRgzU?si=4XQylKLJDs9ph-6G",
+        "https://youtu.be/jpJeMaOb2iM?si=XbEzBMh-Dvs6VHI0"
+      ]
     }
   };
 
@@ -993,8 +1002,10 @@
     var box = el("div", "improve-box");
     box.appendChild(el("h3", null, "How can I improve my result?"));
     if (content.text) box.appendChild(el("p", null, content.text));
-    var embedUrl = youtubeEmbedUrl(content.youtube);
-    if (embedUrl) {
+    var links = Array.isArray(content.youtube) ? content.youtube : (content.youtube ? [content.youtube] : []);
+    links.forEach(function (link) {
+      var embedUrl = youtubeEmbedUrl(link);
+      if (!embedUrl) return;
       var wrap = el("div", "video-embed");
       var frame = document.createElement("iframe");
       frame.src = embedUrl;
@@ -1003,7 +1014,7 @@
       frame.allowFullscreen = true;
       wrap.appendChild(frame);
       box.appendChild(wrap);
-    }
+    });
     return box;
   }
 
