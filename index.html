@@ -260,6 +260,12 @@
   .info-box ol, .info-box ul { margin: 6px 0 10px 18px; padding: 0; }
   .info-box li { margin: 2px 0; }
   .info-box strong { color: var(--text-primary); }
+  .improve-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 20px; padding: 14px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 560px; }
+  .improve-box h3 { margin: 0 0 8px; font-size: 14px; color: var(--text-primary); }
+  .improve-box p { margin: 0 0 12px; }
+  .improve-box p:last-of-type { margin-bottom: 12px; }
+  .video-embed { position: relative; width: 100%; padding-top: 56.25%; border-radius: 8px; overflow: hidden; background: #000; }
+  .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-swatch { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
   .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
@@ -598,6 +604,19 @@
     { id: "plank", title: "Plank Time", icon: "⏱️", desc: "How long each swimmer held their plank. Capped at 3:00." },
     { id: "wallsit", title: "Wall Sit Time", icon: "🧱", desc: "How long each swimmer held their wall sit. Capped at 3:00." }
   ];
+
+  // Optional "How can I improve my result?" content per test — add an entry here and it
+  // automatically appears at the top of that test's page. No entry = section is skipped.
+  var IMPROVE_CONTENT = {
+    backflex: {
+      text: "To improve on your back flexibility it's important to stretch your back regularly and safely! Use the follow along stretching video here to help you practice at home",
+      youtube: "https://youtu.be/LgWYsOZKCms?si=gCXjx1HvpqyWm7IE"
+    },
+    plank: {
+      text: "To improve your Plank Time it's important to work on building strength in your core muscles regularly and safely! Use the follow along core workout video here to help you practice at home"
+      // youtube: add the link once available — see note below
+    }
+  };
 
   // The club's full official roster — everyone shows up here even with zero results recorded.
   var ROSTER = [
@@ -961,6 +980,33 @@
     return e;
   }
 
+  function youtubeEmbedUrl(url) {
+    if (!url) return null;
+    var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
+    if (!m) return null;
+    return "https://www.youtube.com/embed/" + m[1];
+  }
+
+  function buildImproveSection(testId) {
+    var content = IMPROVE_CONTENT[testId];
+    if (!content) return null;
+    var box = el("div", "improve-box");
+    box.appendChild(el("h3", null, "How can I improve my result?"));
+    if (content.text) box.appendChild(el("p", null, content.text));
+    var embedUrl = youtubeEmbedUrl(content.youtube);
+    if (embedUrl) {
+      var wrap = el("div", "video-embed");
+      var frame = document.createElement("iframe");
+      frame.src = embedUrl;
+      frame.title = "At-home practice video";
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      wrap.appendChild(frame);
+      box.appendChild(wrap);
+    }
+    return box;
+  }
+
   function setNav(crumbs) {
     topNav.innerHTML = "";
     crumbs.forEach(function (c, i) {
@@ -1033,6 +1079,8 @@
     app.appendChild(el("h1", null, "400m Freestyle — Progress Tracker"));
     app.appendChild(el("span", "date-chip", "Sessions: Sat 7 Feb · Sun 9 Aug · Sun 23 Aug · Sat 5 Sep 2026"));
     app.appendChild(el("p", "subtitle", "Every swimmer's 400m times across four sessions, fastest at the top of each line. Lower time = faster."));
+    var improveFreestyle = buildImproveSection("freestyle");
+    if (improveFreestyle) app.appendChild(improveFreestyle);
 
     var legend = el("div", "legend",
       "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Got faster</span>" +
@@ -1132,6 +1180,8 @@
     app.appendChild(el("h1", null, "50m Sprint Time"));
     app.appendChild(el("span", "date-chip", "Sessions: " + SPRINT_DATES.join(" · ") + " 2026"));
     app.appendChild(el("p", "subtitle", "Every swimmer's 50m sprint times, fastest at the top of each line. Lower time = faster."));
+    var improveSprint = buildImproveSection("sprint");
+    if (improveSprint) app.appendChild(improveSprint);
 
     var legend = el("div", "legend",
       "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Got faster</span>" +
@@ -1228,6 +1278,8 @@
     app.appendChild(el("h1", null, "Back Flexibility"));
     app.appendChild(el("span", "date-chip", "Latest session: " + BACK_FLEX_DATE));
     app.appendChild(el("p", "subtitle", "Distance between fingertips and the back of the heels in a bridge. The marker's position shows how far apart the fingers and heels are, or how far past the heels the fingers are."));
+    var improveBackFlex = buildImproveSection("backflex");
+    if (improveBackFlex) app.appendChild(improveBackFlex);
     app.appendChild(el("div", "legend", "1 = 50cm apart, 2 = 40cm apart, 3 = 30cm apart, 4 = 20cm apart, 5 = 10cm apart, 6 = fingers & toes touching, 7 = fingers 5cm past the heels, 8 = fingers 10cm past the heels. 5 or below is red, 6 is amber, 7 or above is green."));
 
     var names = MASTER_NAMES.slice();
@@ -1288,6 +1340,8 @@
     app.appendChild(el("h1", null, "GB Hypoxic Swim"));
     app.appendChild(el("span", "date-chip", "Latest session: " + GB_HYPOXIC_DATE));
     app.appendChild(el("p", "subtitle", "A single-session snapshot of everyone's GB Hypoxic Swim time, shown as minutes:seconds. Lower is better."));
+    var improveGbHypoxic = buildImproveSection("gbhypoxic");
+    if (improveGbHypoxic) app.appendChild(improveGbHypoxic);
 
     app.appendChild(el("div", "info-box",
       "<p><strong>What the set is:</strong> A speed swimming set used at GB National Team trials.</p>" +
@@ -1364,6 +1418,8 @@
     app.appendChild(el("h1", null, "GB Kick Set"));
     app.appendChild(el("span", "date-chip", "Latest session: " + GB_KICK_SET_DATE));
     app.appendChild(el("p", "subtitle", "A single-session snapshot of everyone's GB Kick Set time, shown as minutes:seconds. Lower is better."));
+    var improveGbKickSet = buildImproveSection("gbkickset");
+    if (improveGbKickSet) app.appendChild(improveGbKickSet);
 
     app.appendChild(el("div", "info-box",
       "<p><strong>What the set is:</strong> A speed swimming set used at GB National Team trials. Athletes start in the water — it's a timed 200m set.</p>" +
@@ -1441,6 +1497,8 @@
     app.appendChild(el("h1", null, "Splits — Left Leg, Right Leg & Box Split"));
     app.appendChild(el("span", "date-chip", "Recorded " + SPLITS_DATE));
     app.appendChild(el("p", "subtitle", "Each swimmer's split measured against a flat split. The marker's position shows how far off the floor (undersplit) or past flat (oversplit) they are."));
+    var improveSplits = buildImproveSection("splits");
+    if (improveSplits) app.appendChild(improveSplits);
 
     app.appendChild(el("div", "scale-key",
       "<span>40cm undersplit</span><span class='key-track'><span class='key-flat'></span></span><span>40cm oversplit</span>" +
@@ -1516,6 +1574,8 @@
     app.appendChild(el("h1", null, title));
     app.appendChild(el("span", "date-chip", "Recorded " + PLANK_WALLSIT_DATE));
     app.appendChild(el("p", "subtitle", "How long each swimmer held their " + (kind === "plank" ? "plank" : "wall sit") + ". Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
+    var improveTimeTest = buildImproveSection(kind);
+    if (improveTimeTest) app.appendChild(improveTimeTest);
 
     var names = MASTER_NAMES.slice();
     var recordedNames = names.filter(function (n) { return DATA[n] !== undefined; });
