@@ -307,6 +307,8 @@
 <script>
 (function () {
   var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep"];
+  var SPLITS_DATE = "Sat 5 Sep 2026";
+  var PLANK_WALLSIT_DATE = "Sat 5 Sep 2026";
 
   var FREESTYLE = {
     "Adala Kan-Dapaah": {0:503,1:502,3:528},
@@ -543,12 +545,14 @@
     "Clara Stoian": 321,
     "Elsie Jackson": 519,
     "Eva Mei Lynam": 373,
+    "Franki Chandler-Causon": 284,
     "Hazeley Kalisch": 278,
     "Heidi Voigt": 464,
     "Isabella Gerbi": 303,
     "Jasmina Piasecka": 292,
     "Jessica Brooks": 295,
     "Kiara Ramparsad": 301,
+    "Leah Brown": 261,
     "Marta Nicolaescu": 347,
     "Mila Gunther": 266,
     "Nora Simko Guerrero": 325,
@@ -556,10 +560,33 @@
     "Rachel Nash": 460,
     "Ruby Sumner": 448,
     "Sienna Keys": 302,
+    "Violet Lumb": 268,
     "Vivian Gao": 370,
     "Zoe Winter": 457,
     "Zoë Moore": 295
   };
+
+  // ---------- overall "latest session" (auto-computed from every test's own date label(s), so the
+  // home page banner never needs a separate manual update when a new session's results are added) ----------
+  function parseSessionDateLabel(label) {
+    var m = label.match(/(\d{1,2})\s+([A-Za-z]{3})[A-Za-z]*\s*(\d{4})?/);
+    if (!m) return null;
+    var months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+    var month = months[m[2]];
+    if (month === undefined) return null;
+    // The testing hub covers a single season (2026); older date labels that were written without
+    // a year (e.g. early Freestyle sessions) default to that.
+    return new Date(m[3] ? +m[3] : 2026, month, +m[1]);
+  }
+  function latestSessionLabel() {
+    var allLabels = DATES.concat(SPRINT_DATES, [SPLITS_DATE, PLANK_WALLSIT_DATE, BACK_FLEX_DATE, GB_HYPOXIC_DATE, GB_KICK_SET_DATE]);
+    var best = null, bestDate = null;
+    allLabels.forEach(function (label) {
+      var d = parseSessionDateLabel(label);
+      if (d && (!bestDate || d > bestDate)) { bestDate = d; best = label; }
+    });
+    return best || "Not yet recorded";
+  }
 
   var TESTS = [
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across four sessions, with a trend line for anyone swum more than once." },
@@ -954,7 +981,7 @@
     app.innerHTML = "";
 
     app.appendChild(el("h1", null, "Erith & District Artistic Swimming Testing Hub"));
-    app.appendChild(el("span", "date-chip", "Latest session: Sat 5 Sep 2026"));
+    app.appendChild(el("span", "date-chip", "Latest session: " + latestSessionLabel()));
     app.appendChild(el("p", "subtitle", "Pick a test to see everyone's results, or find a swimmer below to see all their results in one place."));
 
     app.appendChild(el("h2", null, "Tests"));
@@ -1412,7 +1439,7 @@
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "Splits" }]);
     app.innerHTML = "";
     app.appendChild(el("h1", null, "Splits — Left Leg, Right Leg & Box Split"));
-    app.appendChild(el("span", "date-chip", "Recorded Sat 5 Sep 2026"));
+    app.appendChild(el("span", "date-chip", "Recorded " + SPLITS_DATE));
     app.appendChild(el("p", "subtitle", "Each swimmer's split measured against a flat split. The marker's position shows how far off the floor (undersplit) or past flat (oversplit) they are."));
 
     app.appendChild(el("div", "scale-key",
@@ -1487,7 +1514,7 @@
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: label }]);
     app.innerHTML = "";
     app.appendChild(el("h1", null, title));
-    app.appendChild(el("span", "date-chip", "Recorded Sat 5 Sep 2026"));
+    app.appendChild(el("span", "date-chip", "Recorded " + PLANK_WALLSIT_DATE));
     app.appendChild(el("p", "subtitle", "How long each swimmer held their " + (kind === "plank" ? "plank" : "wall sit") + ". Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
 
     var names = MASTER_NAMES.slice();
