@@ -260,12 +260,15 @@
   .info-box ol, .info-box ul { margin: 6px 0 10px 18px; padding: 0; }
   .info-box li { margin: 2px 0; }
   .info-box strong { color: var(--text-primary); }
-  .improve-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 20px; padding: 14px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 560px; }
-  .improve-box h3 { margin: 0 0 8px; font-size: 14px; color: var(--text-primary); }
-  .improve-box p { margin: 0 0 12px; }
-  .improve-box p:last-of-type { margin-bottom: 12px; }
-  .video-embed { position: relative; width: 100%; padding-top: 56.25%; border-radius: 8px; overflow: hidden; background: #000; }
-  .video-embed + .video-embed { margin-top: 10px; }
+  .improve-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 20px; padding: 10px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 560px; }
+  .improve-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .improve-box h3 { margin: 0; font-size: 14px; color: var(--text-primary); }
+  .improve-box p { margin: 12px 0; }
+  .improve-body { display: none; }
+  .improve-body.open { display: block; }
+  .improve-toggle { flex: none; padding: 6px 10px; font-size: 12px; }
+  .video-embed { position: relative; width: 100%; padding-top: 56.25%; border-radius: 8px; overflow: hidden; background: #000; margin-bottom: 12px; }
+  .video-embed:last-child { margin-bottom: 0; }
   .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-swatch { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
@@ -1004,21 +1007,46 @@
     var content = IMPROVE_CONTENT[testId];
     if (!content) return null;
     var box = el("div", "improve-box");
-    box.appendChild(el("h3", null, "How can I improve my result?"));
-    if (content.text) box.appendChild(el("p", null, content.text));
+
+    var head = el("div", "improve-head");
+    head.appendChild(el("h3", null, "How can I improve my result?"));
+    var toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className = "toggle-btn improve-toggle";
+    toggleBtn.textContent = "Show tips & video";
+    head.appendChild(toggleBtn);
+    box.appendChild(head);
+
+    var body = el("div", "improve-body");
+    if (content.text) body.appendChild(el("p", null, content.text));
+    var frames = [];
     var links = Array.isArray(content.youtube) ? content.youtube : (content.youtube ? [content.youtube] : []);
     links.forEach(function (link) {
       var embedUrl = youtubeEmbedUrl(link);
       if (!embedUrl) return;
       var wrap = el("div", "video-embed");
       var frame = document.createElement("iframe");
-      frame.src = embedUrl;
+      frame.dataset.src = embedUrl;
       frame.title = "At-home practice video";
       frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       frame.allowFullscreen = true;
       wrap.appendChild(frame);
-      box.appendChild(wrap);
+      body.appendChild(wrap);
+      frames.push(frame);
     });
+    box.appendChild(body);
+
+    toggleBtn.addEventListener("click", function () {
+      var opening = !body.classList.contains("open");
+      body.classList.toggle("open", opening);
+      toggleBtn.textContent = opening ? "Hide tips & video" : "Show tips & video";
+      if (opening) {
+        frames.forEach(function (f) {
+          if (f.dataset.src && !f.src) f.src = f.dataset.src;
+        });
+      }
+    });
+
     return box;
   }
 
