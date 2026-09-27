@@ -748,26 +748,31 @@
     }
     var first = points[0].sec, last = points[points.length - 1].sec;
     var trend = points.length < 2 ? "flat" : (last < first ? "good" : (last > first ? "bad" : "flat"));
-    var color = trend === "good" ? "var(--good)" : trend === "bad" ? "var(--critical)" : "var(--neutral-mark)";
     var coords = points.map(function (p) { return { x: xPos[p.idx], y: yFor(p.sec), sec: p.sec, idx: p.idx }; });
 
-    if (coords.length > 1) {
-      var poly = document.createElementNS(svgNS, "polyline");
-      poly.setAttribute("points", coords.map(function (c) { return c.x + "," + c.y; }).join(" "));
-      poly.setAttribute("fill", "none");
-      poly.setAttribute("stroke", color);
-      poly.setAttribute("stroke-width", "2");
-      poly.setAttribute("stroke-linecap", "round");
-      poly.setAttribute("stroke-linejoin", "round");
-      poly.setAttribute("vector-effect", "non-scaling-stroke");
-      svg.appendChild(poly);
+    // Each segment (and the dot it leads into) is colored on its own: faster than the
+    // previous result = green, slower = red, unchanged = neutral. Not one color for the whole line.
+    function segColor(prevSec, sec) {
+      return sec < prevSec ? "var(--good)" : sec > prevSec ? "var(--critical)" : "var(--neutral-mark)";
     }
 
-    coords.forEach(function (c) {
+    for (var i = 1; i < coords.length; i++) {
+      var seg = document.createElementNS(svgNS, "line");
+      seg.setAttribute("x1", coords[i - 1].x); seg.setAttribute("y1", coords[i - 1].y);
+      seg.setAttribute("x2", coords[i].x); seg.setAttribute("y2", coords[i].y);
+      seg.setAttribute("stroke", segColor(coords[i - 1].sec, coords[i].sec));
+      seg.setAttribute("stroke-width", "2");
+      seg.setAttribute("stroke-linecap", "round");
+      seg.setAttribute("vector-effect", "non-scaling-stroke");
+      svg.appendChild(seg);
+    }
+
+    coords.forEach(function (c, i) {
+      var dotColor = i === 0 ? "var(--neutral-mark)" : segColor(coords[i - 1].sec, c.sec);
       var dot = document.createElementNS(svgNS, "circle");
       dot.setAttribute("cx", c.x); dot.setAttribute("cy", c.y);
       dot.setAttribute("r", h > 46 ? 3.2 : 2.6);
-      dot.setAttribute("fill", color);
+      dot.setAttribute("fill", dotColor);
       dot.setAttribute("stroke", "var(--surface-1)");
       dot.setAttribute("stroke-width", "1.2");
       svg.appendChild(dot);
