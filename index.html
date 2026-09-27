@@ -316,53 +316,59 @@
 
 <script>
 (function () {
-  var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep"];
+  var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep", "Sun 27 Sep"];
   var SPLITS_DATE = "Sat 5 Sep 2026";
   var PLANK_WALLSIT_DATE = "Sat 5 Sep 2026";
 
   var FREESTYLE = {
-    "Adala Kan-Dapaah": {0:503,1:502,3:528},
-    "Adela Stoian": {0:485,3:559},
+    "Adala Kan-Dapaah": {0:503,1:502,3:528,4:510},
+    "Adela Stoian": {0:485,3:559,4:530},
     "Adele Zinger": {2:483},
     "Alara Sapmaz": {1:404,2:403,3:406},
-    "Amelie Millar": {0:460,3:463},
-    "Arabella Joyce": {1:543,3:520},
-    "Aurora Tallents Trimino": {1:757},
-    "Ava McDonald": {0:459},
+    "Amelie Millar": {0:460,3:463,4:475},
+    "Arabella Joyce": {1:543,3:520,4:586},
+    "Aurora Tallents Trimino": {1:757,4:601},
+    "Ava McDonald": {0:459,4:457},
     "Beatrice Fielding": {0:464,1:453,2:419,3:435},
-    "Bella Vanstone": {2:554,3:572},
-    "Charlotte (Lottie) Lansdell": {2:510},
-    "Clara Stoian": {0:491,3:510},
-    "Darina Andossova": {0:619,3:517},
-    "Elizabeth Whitelaw": {0:512},
+    "Bella Vanstone": {2:554,3:572,4:572},
+    "Charlotte (Lottie) Lansdell": {2:510,4:571},
+    "Clara Stoian": {0:491,3:510,4:516},
+    "Darina Andossova": {0:619,3:517,4:543},
+    "Elizabeth Whitelaw": {0:512,4:527},
+    "Elsie Jackson": {4:655},
     "Erika Kushnir": {0:443,3:436},
+    "Eva Mei Lynam": {4:598},
     "Felicity Hilton": {3:655},
     "Franki Chandler-Causon": {0:392,1:375,3:374},
     "Georgina Steele": {3:325},
-    "Gracie Keehan": {3:525},
+    "Gracie Keehan": {3:525,4:527},
     "Hazeley Kalisch": {2:384,3:398},
+    "Heidi Voigt": {4:643},
     "Holly Gosling": {0:452,1:454,3:451},
-    "Isabella Gerbi": {0:478,1:485,3:493},
-    "Jasmina Piasecka": {0:463,1:456,2:431,3:424},
+    "Isabella Gerbi": {0:478,1:485,3:493,4:507},
+    "Jasmina Piasecka": {0:463,1:456,2:431,3:424,4:432},
     "Jessica Brooks": {0:427,3:389},
     "Joanna Yu": {2:481,3:546},
     "Kiara Ramparsad": {0:562},
+    "Kiarra Chadha": {4:631},
     "Leah Brown": {0:440,3:453},
     "Louisa Hildebrandt": {0:452},
     "Maia Winter": {1:562,3:584},
-    "Mara Nicolaescu": {0:593,3:549},
+    "Mara Nicolaescu": {0:593,3:549,4:545},
     "Marta Nicolaescu": {0:484,3:541},
     "Mila Gunther": {0:471,1:466,3:444},
-    "Morgane Landman": {0:415,2:396,3:393},
+    "Morgane Landman": {0:415,2:396,3:393,4:406},
     "Nora Simko Guerrero": {0:538,1:500,3:553},
     "Olivia Ostrowska": {0:456,3:485},
+    "Phoebe Dimou": {4:595},
     "Rosie Reynolds": {0:455,3:467},
-    "Rosie Thackwray": {1:598},
-    "Sienna Keys": {0:486,3:483},
+    "Rosie Thackwray": {1:598,4:594},
+    "Ruby Sumner": {4:623},
+    "Sienna Keys": {0:486,3:483,4:479},
     "Sophie Scharl": {0:500,3:464},
     "Violet Lumb": {0:469,3:510},
-    "Vivian Gao": {1:567,2:562},
-    "Yixin Xu": {0:575,3:570},
+    "Vivian Gao": {1:567,2:562,4:554},
+    "Yixin Xu": {0:575,3:570,4:564},
     "Zoe Winter": {1:558},
     "Zoë Moore": {0:416,1:400,2:369}
   };
@@ -598,7 +604,7 @@
   }
 
   var TESTS = [
-    { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across four sessions, with a trend line for anyone swum more than once." },
+    { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across five sessions, with a trend line for anyone swum more than once." },
     { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across two sessions, with a trend line for anyone who's sprinted more than once." },
     { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "A single-session snapshot of everyone's GB Hypoxic Swim time. Lower is better." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "A single-session snapshot of everyone's GB Kick Set time. Lower is better." },
@@ -716,7 +722,7 @@
   function buildFreestyleRowSVG(points, opts) {
     opts = opts || {};
     var h = opts.height || 46;
-    var xPos = opts.xPos || [12, 37.33, 62.67, 88];
+    var xPos = opts.xPos || [10, 30, 50, 70, 90];
     var fmtFn = opts.fmtFn || fmt;
     var wrap = document.createElement("div");
     wrap.className = "trend-wrap";
@@ -1136,8 +1142,8 @@
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "400m Freestyle" }]);
     app.innerHTML = "";
     app.appendChild(el("h1", null, "400m Freestyle — Progress Tracker"));
-    app.appendChild(el("span", "date-chip", "Sessions: Sat 7 Feb · Sun 9 Aug · Sun 23 Aug · Sat 5 Sep 2026"));
-    app.appendChild(el("p", "subtitle", "Every swimmer's 400m times across four sessions, fastest at the top of each line. Lower time = faster."));
+    app.appendChild(el("span", "date-chip", "Sessions: Sat 7 Feb · Sun 9 Aug · Sun 23 Aug · Sat 5 Sep · Sun 27 Sep 2026"));
+    app.appendChild(el("p", "subtitle", "Every swimmer's 400m times across five sessions, fastest at the top of each line. Lower time = faster."));
     var improveFreestyle = buildImproveSection("freestyle");
     if (improveFreestyle) app.appendChild(improveFreestyle);
 
@@ -1160,7 +1166,7 @@
     var headRow = el("div", "grid-row head-row gr-freestyle");
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
     var headDates = el("div", "head-dates");
-    var xPos = [12, 37.33, 62.67, 88];
+    var xPos = [10, 30, 50, 70, 90];
     DATES.forEach(function (d, i) {
       var s = el("span", "head-date", d);
       s.style.left = xPos[i] + "%";
@@ -1213,11 +1219,11 @@
       var points = freestylePointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       if (!points) {
-        var emptyCells = [0, 1, 2, 3].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        var emptyCells = [0, 1, 2, 3, 4].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
       }
       var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
-      var cells = [0, 1, 2, 3].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
+      var cells = [0, 1, 2, 3, 4].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
       var first = points[0].sec, last = points[points.length - 1].sec, d = last - first;
       var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
       return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
