@@ -1196,10 +1196,13 @@
       } else {
         var built = buildFreestyleRowSVG(points, { xPos: xPos });
         chartCell.appendChild(built.el);
-        deltaCell = el("div", "delta-cell " + (built.trend === "good" ? "delta-good" : built.trend === "bad" ? "delta-bad" : "delta-flat"));
-        if (points.length < 2) { deltaCell.textContent = "—"; }
-        else {
-          var d = built.last - built.first;
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d < 0 ? "delta-good" : d > 0 ? "delta-bad" : "delta-flat"));
           deltaCell.textContent = (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
         }
       }
@@ -1224,7 +1227,8 @@
       }
       var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
       var cells = [0, 1, 2, 3, 4].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
-      var first = points[0].sec, last = points[points.length - 1].sec, d = last - first;
+      // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
       var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
       return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
     }).join("") + "</tbody>";
