@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Erith & District Artistic Swimming Testing Hub</title>
 <style>
   .viz-root {
@@ -438,50 +439,55 @@
 
   // idx 0 = Sun 30 Aug 2026, idx 1 = Sun 13 Sep 2026. Where a swimmer had two attempts
   // logged on the same date, the faster (lower) time is kept as that session's result.
-  var SPRINT_DATES = ["Sun 30 Aug", "Sun 13 Sep"];
+  var SPRINT_DATES = ["Sun 30 Aug", "Sun 13 Sep", "Sat 3 Oct"];
   var SPRINT = {
     "Adala Kan-Dapaah": {1: 45.73},
+    "Adela Stoian": {2: 50.04},
     "Adele Zinger": {0: 42.17, 1: 43.17},
     "Alara Sapmaz": {0: 39.06, 1: 37.52},
-    "Amelie Millar": {1: 42.48},
+    "Amelie Millar": {1: 42.48, 2: 41.99},
     "Angeline Ng": {1: 32.16},
-    "Arabella Joyce": {0: 54.14, 1: 48.23},
+    "Arabella Joyce": {0: 54.14, 1: 48.23, 2: 48.61},
     "Aurora Tallents Trimino": {0: 71.00, 1: 55.31},
-    "Ava McDonald": {1: 38.47},
-    "Beatrice Fielding": {1: 44.21},
-    "Bella Vanstone": {0: 52.18, 1: 54.15},
-    "Charlotte (Lottie) Lansdell": {0: 49.31},
-    "Clara Stoian": {1: 47.82},
-    "Darina Andossova": {1: 48.42},
-    "Elizabeth Whitelaw": {0: 46.50},
+    "Ava McDonald": {1: 38.47, 2: 40.42},
+    "Beatrice Fielding": {1: 44.21, 2: 44.58},
+    "Bella Vanstone": {0: 52.18, 1: 54.15, 2: 56.73},
+    "Charlotte (Lottie) Lansdell": {0: 49.31, 2: 44.7},
+    "Clara Stoian": {1: 47.82, 2: 43.14},
+    "Darina Andossova": {1: 48.42, 2: 55.26},
+    "Elizabeth Whitelaw": {0: 46.50, 2: 47.99},
     "Elsie Jackson": {1: 72.51},
     "Eva Mei Lynam": {1: 51.7},
-    "Felicity Hilton": {0: 56.62, 1: 53.22},
+    "Felicity Hilton": {0: 56.62, 1: 53.22, 2: 55.92},
     "Franki Chandler-Causon": {1: 36.1},
     "Georgina Steele": {1: 33.56},
-    "Gracie Keehan": {1: 53.52},
+    "Gracie Keehan": {1: 53.52, 2: 58.39},
     "Hazeley Kalisch": {1: 34.13},
     "Heidi Voigt": {1: 63.91},
-    "Holly Gosling": {0: 41.42},
-    "Isabella Gerbi": {1: 44.28},
-    "Jasmina Piasecka": {0: 37.31, 1: 38.42},
+    "Holly Gosling": {0: 41.42, 2: 42.38},
+    "Isabella Gerbi": {1: 44.28, 2: 49.5},
+    "Jasmina Piasecka": {0: 37.31, 1: 38.42, 2: 39.49},
     "Jessica Brooks": {0: 37.79, 1: 38.21},
-    "Joanna Yu": {0: 45.69, 1: 48.2},
+    "Joanna Yu": {0: 45.69, 1: 48.2, 2: 61.13},
+    "Kiara Ramparsad": {2: 55.55},
     "Kiarra Chadha": {1: 55.62},
     "Leah Brown": {1: 39.36},
     "Louisa Hildebrandt": {1: 37.12},
-    "Maia Winter": {1: 59.37},
-    "Mara Nicolaescu": {1: 58.06},
+    "Maia Winter": {1: 59.37, 2: 53.48},
+    "Mara Nicolaescu": {1: 58.06, 2: 56.51},
     "Marta Nicolaescu": {1: 55.11},
-    "Mila Gunther": {0: 40.22, 1: 39.92},
+    "Mila Gunther": {0: 40.22, 1: 39.92, 2: 45.29},
+    "Nora Simko Guerrero": {2: 39.42},
     "Olivia Ostrowska": {1: 36.39},
     "Phoebe Dimou": {1: 49.55},
-    "Rosie Reynolds": {0: 40.59, 1: 44.12},
+    "Rosie Reynolds": {0: 40.59, 1: 44.12, 2: 43.56},
     "Rosie Thackwray": {0: 51.30, 1: 50.1},
     "Ruby Sumner": {0: 54.28, 1: 51.86},
     "Sienna Keys": {0: 41.07, 1: 37.39},
+    "Sophie Scharl": {2: 47.59},
     "Violet Lumb": {1: 43.49},
     "Vivian Gao": {0: 58.59, 1: 49.22},
+    "Yixin Xu": {2: 59.31},
     "Zoe Winter": {1: 51.9},
     "Zoë Moore": {0: 36.31, 1: 37.52}
   };
@@ -605,7 +611,7 @@
 
   var TESTS = [
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across five sessions, with a trend line for anyone swum more than once." },
-    { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across two sessions, with a trend line for anyone who's sprinted more than once." },
+    { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across three sessions, with a trend line for anyone who's sprinted more than once." },
     { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "A single-session snapshot of everyone's GB Hypoxic Swim time. Lower is better." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "A single-session snapshot of everyone's GB Kick Set time. Lower is better." },
     { id: "splits", title: "Splits", icon: "🤸", desc: "Left leg, right leg and box split, measured against a flat split." },
@@ -1271,7 +1277,7 @@
     toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
     app.appendChild(toolbar);
 
-    var xPos = [25, 75];
+    var xPos = [15, 50, 85];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
     var headRow = el("div", "grid-row head-row gr-freestyle");
@@ -1306,10 +1312,13 @@
       } else {
         var built = buildFreestyleRowSVG(points, { xPos: xPos, fmtFn: fmtSprint });
         chartCell.appendChild(built.el);
-        deltaCell = el("div", "delta-cell " + (built.trend === "good" ? "delta-good" : built.trend === "bad" ? "delta-bad" : "delta-flat"));
-        if (points.length < 2) { deltaCell.textContent = "—"; }
-        else {
-          var d = built.last - built.first;
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d < 0 ? "delta-good" : d > 0 ? "delta-bad" : "delta-flat"));
           deltaCell.textContent = (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmtSprint(Math.abs(d)) + "s";
         }
       }
@@ -1327,12 +1336,13 @@
       var points = sprintPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       if (!points) {
-        var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        var emptyCells = [0, 1, 2].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
       }
       var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
-      var cells = [0, 1].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmtSprint(byIdx[i]) + "s</td>" : "<td class='dash'>—</td>"; }).join("");
-      var first = points[0].sec, last = points[points.length - 1].sec, d = last - first;
+      var cells = [0, 1, 2].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmtSprint(byIdx[i]) + "s</td>" : "<td class='dash'>—</td>"; }).join("");
+      // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
       var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmtSprint(Math.abs(d)) + "s";
       return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
     }).join("") + "</tbody>";
@@ -1771,7 +1781,7 @@
     } else {
       spr50Card.appendChild(el("p", "p-desc", "Lower time = faster."));
       var sprChartWrap = el("div", "chart-cell"); sprChartWrap.style.height = "70px";
-      var sprBuilt = buildFreestyleRowSVG(sprintPoints, { height: 70, xPos: [25, 75], fmtFn: fmtSprint });
+      var sprBuilt = buildFreestyleRowSVG(sprintPoints, { height: 70, xPos: [15, 50, 85], fmtFn: fmtSprint });
       sprChartWrap.appendChild(sprBuilt.el);
       spr50Card.appendChild(sprChartWrap);
     }
@@ -1891,3 +1901,5 @@
   route();
 })();
 </script>
+
+</body></html>
