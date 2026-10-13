@@ -319,7 +319,8 @@
 (function () {
   var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep", "Sun 27 Sep"];
   var SPLITS_DATE = "Sat 5 Sep 2026";
-  var PLANK_WALLSIT_DATE = "Sat 5 Sep 2026";
+  var PLANK_DATE = "Sat 3 Oct 2026";
+  var WALLSIT_DATE = "Sat 5 Sep 2026";
 
   var FREESTYLE = {
     "Adala Kan-Dapaah": {0:503,1:502,3:528,4:510},
@@ -413,15 +414,16 @@
   };
 
   var PLANK = {
-    "Adala Kan-Dapaah": 120, "Adela Stoian": 137, "Alara Sapmaz": 180, "Amelie Millar": 180,
-    "Arabella Joyce": 100, "Beatrice Fielding": 98, "Bella Vanstone": 120, "Clara Stoian": 180,
-    "Darina Andossova": 180, "Erika Kushnir": 141, "Felicity Hilton": 23, "Franki Chandler-Causon": 140,
-    "Gracie Keehan": 108, "Hazeley Kalisch": 180, "Holly Gosling": 97, "Isabella Gerbi": 180,
-    "Jasmina Piasecka": 180, "Jessica Brooks": 180, "Joanna Yu": 180, "Kiara Ramparsad": 80,
-    "Leah Brown": 70, "Maia Boundy": 180, "Maia Winter": 162, "Mara Nicolaescu": 18,
-    "Marta Nicolaescu": 46, "Mila Gunther": 120, "Morgane Landman": 125, "Nora Simko Guerrero": 172,
-    "Olivia Ostrowska": 125, "Rosie Reynolds": 90, "Sienna Keys": 65,
-    "Sophie Scharl": 105, "Violet Lumb": 70, "Vivian Gao": 70, "Yixin Xu": 180, "Zoë Moore": 180
+    "Adala Kan-Dapaah": 159, "Adela Stoian": 180, "Alara Sapmaz": 180, "Amelie Millar": 180,
+    "Arabella Joyce": 114, "Ava McDonald": 180, "Beatrice Fielding": 105, "Bella Vanstone": 180,
+    "Charlotte (Lottie) Lansdell": 120, "Clara Stoian": 180, "Darina Andossova": 180,
+    "Elizabeth Whitelaw": 180, "Erika Kushnir": 180, "Felicity Hilton": 120, "Franki Chandler-Causon": 140,
+    "Gracie Keehan": 45, "Hazeley Kalisch": 180, "Holly Gosling": 180, "Isabella Gerbi": 180,
+    "Jasmina Piasecka": 180, "Jessica Brooks": 180, "Joanna Yu": 180, "Kiara Ramparsad": 133,
+    "Leah Brown": 120, "Louisa Hildebrandt": 180, "Maia Boundy": 180, "Maia Winter": 180, "Mara Nicolaescu": 180,
+    "Marta Nicolaescu": 46, "Mila Gunther": 180, "Morgane Landman": 125, "Nora Simko Guerrero": 180,
+    "Olivia Ostrowska": 110, "Rosie Reynolds": 90, "Sienna Keys": 65,
+    "Sophie Scharl": 105, "Violet Lumb": 143, "Vivian Gao": 180, "Yixin Xu": 180, "Zoë Moore": 180
   };
 
   var WALLSIT = {
@@ -623,7 +625,7 @@
     return new Date(m[3] ? +m[3] : 2026, month, +m[1]);
   }
   function latestSessionLabel() {
-    var allLabels = DATES.concat(SPRINT_DATES, [SPLITS_DATE, PLANK_WALLSIT_DATE, BACK_FLEX_DATE, GB_HYPOXIC_DATE, GB_KICK_SET_DATE]);
+    var allLabels = DATES.concat(SPRINT_DATES, [SPLITS_DATE, PLANK_DATE, WALLSIT_DATE, BACK_FLEX_DATE, GB_HYPOXIC_DATE, GB_KICK_SET_DATE]);
     var best = null, bestDate = null;
     allLabels.forEach(function (label) {
       var d = parseSessionDateLabel(label);
@@ -1679,7 +1681,7 @@
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: label }]);
     app.innerHTML = "";
     app.appendChild(el("h1", null, title));
-    app.appendChild(el("span", "date-chip", "Recorded " + PLANK_WALLSIT_DATE));
+    app.appendChild(el("span", "date-chip", "Recorded " + (kind === "plank" ? PLANK_DATE : WALLSIT_DATE)));
     app.appendChild(el("p", "subtitle", "How long each swimmer held their " + (kind === "plank" ? "plank" : "wall sit") + ". Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
     var improveTimeTest = buildImproveSection(kind);
     if (improveTimeTest) app.appendChild(improveTimeTest);
