@@ -826,6 +826,9 @@
     // Each segment (and the dot it leads into) is colored on its own: an improvement on the
     // previous result = green, a step back = red, unchanged = neutral. Not one color for the whole line.
     function segColor(prevSec, sec) {
+      // Hitting the cap (e.g. holding the full 3:00) is itself a good result, even when it's
+      // the same as the previous capped result — so it's green rather than the usual "unchanged" neutral.
+      if (capAt !== undefined && prevSec >= capAt && sec >= capAt) return "var(--good)";
       var better = higherIsBetter ? sec > prevSec : sec < prevSec;
       var worse = higherIsBetter ? sec < prevSec : sec > prevSec;
       return better ? "var(--good)" : worse ? "var(--critical)" : "var(--neutral-mark)";
@@ -843,7 +846,9 @@
     }
 
     coords.forEach(function (c, i) {
-      var dotColor = i === 0 ? "var(--neutral-mark)" : segColor(coords[i - 1].sec, c.sec);
+      // A capped result is green on its own, even as the very first point (no previous segment to compare against).
+      var atCap = capAt !== undefined && c.sec >= capAt;
+      var dotColor = atCap ? "var(--good)" : (i === 0 ? "var(--neutral-mark)" : segColor(coords[i - 1].sec, c.sec));
       var dot = document.createElementNS(svgNS, "circle");
       dot.setAttribute("cx", c.x); dot.setAttribute("cy", c.y);
       dot.setAttribute("r", h > 46 ? 3.2 : 2.6);
