@@ -319,7 +319,7 @@
 (function () {
   var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep", "Sun 27 Sep"];
   var SPLITS_DATE = "Sat 5 Sep 2026";
-  var PLANK_DATE = "Sat 3 Oct 2026";
+  var PLANK_DATES = ["Sat 5 Sep", "Sat 3 Oct"];
   var WALLSIT_DATE = "Sat 5 Sep 2026";
 
   var FREESTYLE = {
@@ -413,17 +413,48 @@
     "Yixin Xu": { left: 6, right: 7, box: 6 }
   };
 
+  // idx 0 = Sat 5 Sep 2026, idx 1 = Sat 3 Oct 2026.
   var PLANK = {
-    "Adala Kan-Dapaah": 159, "Adela Stoian": 180, "Alara Sapmaz": 180, "Amelie Millar": 180,
-    "Arabella Joyce": 114, "Ava McDonald": 180, "Beatrice Fielding": 105, "Bella Vanstone": 180,
-    "Charlotte (Lottie) Lansdell": 120, "Clara Stoian": 180, "Darina Andossova": 180,
-    "Elizabeth Whitelaw": 180, "Erika Kushnir": 180, "Felicity Hilton": 120, "Franki Chandler-Causon": 140,
-    "Gracie Keehan": 45, "Hazeley Kalisch": 180, "Holly Gosling": 180, "Isabella Gerbi": 180,
-    "Jasmina Piasecka": 180, "Jessica Brooks": 180, "Joanna Yu": 180, "Kiara Ramparsad": 133,
-    "Leah Brown": 120, "Louisa Hildebrandt": 180, "Maia Boundy": 180, "Maia Winter": 180, "Mara Nicolaescu": 180,
-    "Marta Nicolaescu": 46, "Mila Gunther": 180, "Morgane Landman": 125, "Nora Simko Guerrero": 180,
-    "Olivia Ostrowska": 110, "Rosie Reynolds": 90, "Sienna Keys": 65,
-    "Sophie Scharl": 105, "Violet Lumb": 143, "Vivian Gao": 180, "Yixin Xu": 180, "Zoë Moore": 180
+    "Adala Kan-Dapaah": {0: 120, 1: 159},
+    "Adela Stoian": {0: 137, 1: 180},
+    "Alara Sapmaz": {0: 180, 1: 180},
+    "Amelie Millar": {0: 180, 1: 180},
+    "Arabella Joyce": {0: 100, 1: 114},
+    "Ava McDonald": {1: 180},
+    "Beatrice Fielding": {0: 98, 1: 105},
+    "Bella Vanstone": {0: 120, 1: 180},
+    "Charlotte (Lottie) Lansdell": {1: 120},
+    "Clara Stoian": {0: 180, 1: 180},
+    "Darina Andossova": {0: 180},
+    "Elizabeth Whitelaw": {1: 180},
+    "Erika Kushnir": {0: 141, 1: 180},
+    "Felicity Hilton": {0: 23, 1: 120},
+    "Franki Chandler-Causon": {0: 140},
+    "Gracie Keehan": {0: 108, 1: 45},
+    "Hazeley Kalisch": {0: 180},
+    "Holly Gosling": {0: 97, 1: 180},
+    "Isabella Gerbi": {0: 180, 1: 180},
+    "Jasmina Piasecka": {0: 180, 1: 180},
+    "Jessica Brooks": {0: 180, 1: 180},
+    "Joanna Yu": {0: 180, 1: 180},
+    "Kiara Ramparsad": {0: 80, 1: 133},
+    "Leah Brown": {0: 70, 1: 120},
+    "Louisa Hildebrandt": {1: 180},
+    "Maia Boundy": {0: 180, 1: 180},
+    "Maia Winter": {0: 162, 1: 180},
+    "Mara Nicolaescu": {0: 18, 1: 180},
+    "Marta Nicolaescu": {0: 46},
+    "Mila Gunther": {0: 120, 1: 180},
+    "Morgane Landman": {0: 125},
+    "Nora Simko Guerrero": {0: 172, 1: 180},
+    "Olivia Ostrowska": {0: 125, 1: 110},
+    "Rosie Reynolds": {0: 90},
+    "Sienna Keys": {0: 65},
+    "Sophie Scharl": {0: 105},
+    "Violet Lumb": {0: 70, 1: 143},
+    "Vivian Gao": {0: 70, 1: 180},
+    "Yixin Xu": {0: 180},
+    "Zoë Moore": {0: 180, 1: 180}
   };
 
   var WALLSIT = {
@@ -525,58 +556,58 @@
     "Vivian Gao": 8
   };
 
-  // Single session so far (Sat 19 Sep 2026). Lower time = better. Times shown as minutes:seconds.
-  var GB_HYPOXIC_DATE = "Sun 4 Oct 2026";
+  // idx 0 = Sat 19 Sep 2026, idx 1 = Sun 4 Oct 2026. Lower time = better. Times shown as minutes:seconds.
+  var GB_HYPOXIC_DATES = ["Sat 19 Sep", "Sun 4 Oct"];
   var GB_HYPOXIC = {
-    "Adala Kan-Dapaah": 188.33,
-    "Adela Stoian": 199.68,
-    "Adele Zinger": 185.96,
-    "Alara Sapmaz": 160.3,
-    "Amelie Millar": 187.05,
-    "Arabella Joyce": 225.7,
-    "Ava McDonald": 175.24,
-    "Beatrice Fielding": 178.01,
-    "Bella Vanstone": 214.78,
-    "Charlotte (Lottie) Lansdell": 212.47,
-    "Clara Stoian": 194.69,
-    "Darina Andossova": 229.65,
-    "Elizabeth Whitelaw": 192.78,
-    "Elsie Jackson": 393.76,
-    "Erika Kushnir": 179.94,
-    "Eva Mei Lynam": 243.97,
-    "Felicity Hilton": 229.52,
-    "Franki Chandler-Causon": 155.12,
-    "Gracie Keehan": 243.4,
-    "Hazeley Kalisch": 156.5,
-    "Heidi Voigt": 328.49,
-    "Holly Gosling": 176.23,
-    "Isabella Gerbi": 205,
-    "Jasmina Piasecka": 174.42,
-    "Jessica Brooks": 148.19,
-    "Joanna Yu": 259.57,
-    "Kiara Ramparsad": 248.71,
-    "Kiarra Chadha": 299.73,
-    "Leah Brown": 183.82,
-    "Louisa Hildebrandt": 187.78,
-    "Maia Boundy": 157,
-    "Maia Winter": 222.52,
-    "Mara Nicolaescu": 230.3,
-    "Marta Nicolaescu": 235,
-    "Mila Gunther": 175.26,
-    "Morgane Landman": 177.49,
-    "Nora Simko Guerrero": 194.2,
-    "Olivia Ostrowska": 187.67,
-    "Phoebe Dimou": 254.25,
-    "Rachel Nash": 326.01,
-    "Rosie Reynolds": 250,
-    "Rosie Thackwray": 245.73,
-    "Ruby Sumner": 280.89,
-    "Sienna Keys": 182.58,
-    "Sophie Scharl": 195,
-    "Violet Lumb": 189.59,
-    "Vivian Gao": 214.92,
-    "Yixin Xu": 227.25,
-    "Zoe Winter": 310.94
+    "Adala Kan-Dapaah": {0: 202, 1: 188.33},
+    "Adela Stoian": {0: 206, 1: 199.68},
+    "Adele Zinger": {1: 185.96},
+    "Alara Sapmaz": {1: 160.3},
+    "Amelie Millar": {0: 188, 1: 187.05},
+    "Arabella Joyce": {0: 206, 1: 225.7},
+    "Ava McDonald": {0: 176, 1: 175.24},
+    "Beatrice Fielding": {0: 195, 1: 178.01},
+    "Bella Vanstone": {0: 218, 1: 214.78},
+    "Charlotte (Lottie) Lansdell": {1: 212.47},
+    "Clara Stoian": {0: 190, 1: 194.69},
+    "Darina Andossova": {1: 229.65},
+    "Elizabeth Whitelaw": {1: 192.78},
+    "Elsie Jackson": {1: 393.76},
+    "Erika Kushnir": {1: 179.94},
+    "Eva Mei Lynam": {1: 243.97},
+    "Felicity Hilton": {0: 227, 1: 229.52},
+    "Franki Chandler-Causon": {1: 155.12},
+    "Gracie Keehan": {0: 237, 1: 243.4},
+    "Hazeley Kalisch": {0: 184, 1: 156.5},
+    "Heidi Voigt": {1: 328.49},
+    "Holly Gosling": {0: 182, 1: 176.23},
+    "Isabella Gerbi": {0: 205},
+    "Jasmina Piasecka": {0: 183, 1: 174.42},
+    "Jessica Brooks": {0: 180, 1: 148.19},
+    "Joanna Yu": {1: 259.57},
+    "Kiara Ramparsad": {0: 267, 1: 248.71},
+    "Kiarra Chadha": {1: 299.73},
+    "Leah Brown": {1: 183.82},
+    "Louisa Hildebrandt": {1: 187.78},
+    "Maia Boundy": {0: 157},
+    "Maia Winter": {0: 220, 1: 222.52},
+    "Mara Nicolaescu": {0: 221, 1: 230.3},
+    "Marta Nicolaescu": {0: 235},
+    "Mila Gunther": {0: 179, 1: 175.26},
+    "Morgane Landman": {1: 177.49},
+    "Nora Simko Guerrero": {0: 187, 1: 194.2},
+    "Olivia Ostrowska": {1: 187.67},
+    "Phoebe Dimou": {1: 254.25},
+    "Rachel Nash": {1: 326.01},
+    "Rosie Reynolds": {0: 250},
+    "Rosie Thackwray": {1: 245.73},
+    "Ruby Sumner": {1: 280.89},
+    "Sienna Keys": {0: 186, 1: 182.58},
+    "Sophie Scharl": {0: 195},
+    "Violet Lumb": {1: 189.59},
+    "Vivian Gao": {1: 214.92},
+    "Yixin Xu": {0: 201, 1: 227.25},
+    "Zoe Winter": {1: 310.94}
   };
 
   // Single session so far (Sun 20 Sep 2026). Lower time = better. Times shown as minutes:seconds.
@@ -625,7 +656,7 @@
     return new Date(m[3] ? +m[3] : 2026, month, +m[1]);
   }
   function latestSessionLabel() {
-    var allLabels = DATES.concat(SPRINT_DATES, [SPLITS_DATE, PLANK_DATE, WALLSIT_DATE, BACK_FLEX_DATE, GB_HYPOXIC_DATE, GB_KICK_SET_DATE]);
+    var allLabels = DATES.concat(SPRINT_DATES, PLANK_DATES, GB_HYPOXIC_DATES, [SPLITS_DATE, WALLSIT_DATE, BACK_FLEX_DATE, GB_KICK_SET_DATE]);
     var best = null, bestDate = null;
     allLabels.forEach(function (label) {
       var d = parseSessionDateLabel(label);
@@ -637,11 +668,11 @@
   var TESTS = [
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across five sessions, with a trend line for anyone swum more than once." },
     { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across three sessions, with a trend line for anyone who's sprinted more than once." },
-    { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "A single-session snapshot of everyone's GB Hypoxic Swim time. Lower is better." },
+    { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across two sessions, with a trend line for anyone tested more than once." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "A single-session snapshot of everyone's GB Kick Set time. Lower is better." },
     { id: "splits", title: "Splits", icon: "🤸", desc: "Left leg, right leg and box split, measured against a flat split." },
     { id: "backflex", title: "Back Flexibility", icon: "🌉", desc: "Bridge distance between fingertips and heels, on a 1-8 scale. Higher is more flexible." },
-    { id: "plank", title: "Plank Time", icon: "⏱️", desc: "How long each swimmer held their plank. Capped at 3:00." },
+    { id: "plank", title: "Plank Time", icon: "⏱️", desc: "How long each swimmer held their plank, with a trend line for anyone tested more than once. Capped at 3:00." },
     { id: "wallsit", title: "Wall Sit Time", icon: "🧱", desc: "How long each swimmer held their wall sit. Capped at 3:00." }
   ];
 
@@ -692,10 +723,10 @@
     "Angeline Ng", "Arabella Joyce", "Aurora Tallents Trimino", "Ava McDonald", "Beatrice Fielding", "Bella Vanstone",
     "Carmen Cao Blanco", "Charlotte (Lottie) Lansdell", "Chrissy Onac", "Clara Stoian", "Darina Andossova", "Elina Andossova",
     "Elizabeth Whitelaw", "Elizabeth Yu",
-    "Ellie Onac", "Elsie Jackson", "Erika Kushnir", "Eva Mei Lynam", "Felicity Hilton",
+    "Ellie Onac", "Elsie Jackson", "Elsie Saxton", "Erika Kushnir", "Eva Mei Lynam", "Felicity Hilton",
     "Franki Chandler-Causon", "Georgie Martin", "Georgina Steele", "Gracie Keehan", "Hazeley Kalisch", "Heidi Voigt",
     "Holly Gosling", "Isabella Gerbi", "Jasmina Piasecka", "Jessica Brooks", "Joanna Yu",
-    "Kesha Ramparsad", "Kiara Ramparsad", "Kiarra Chadha", "Leah Brown", "Leila Patel", "Louisa Hildebrandt",
+    "Kesha Ramparsad", "Kiara Ramparsad", "Kiarra Chadha", "Leah Brown", "Louisa Hildebrandt",
     "Maia Boundy", "Maia Winter", "Mara Nicolaescu", "Marta Nicolaescu", "Mila Gunther",
     "Morgane Landman", "Nora Simko Guerrero", "Oliver Kan-Dapaah", "Olivia Ostrowska", "Pearl Bailey", "Phoebe Dimou",
     "Rachel Nash", "Rosie Reynolds", "Rosie Thackwray", "Ruby Sumner", "Sarah Fitz-Gerald", "Sasha Holt",
@@ -755,6 +786,13 @@
     var h = opts.height || 46;
     var xPos = opts.xPos || [10, 30, 50, 70, 90];
     var fmtFn = opts.fmtFn || fmt;
+    // Most tests are lower-is-better (times). A hold-time test like Plank is the opposite —
+    // longer is better — so higherIsBetter flips which direction counts as an improvement,
+    // for both the line/dot coloring and which value is plotted at the top of the chart.
+    var higherIsBetter = !!opts.higherIsBetter;
+    // capAt marks a value that hit the test's time cap (e.g. Plank/Wall Sit stopped at 3:00) —
+    // shown with a small CAP chip next to the value since the swimmer may have gone longer.
+    var capAt = opts.capAt;
     var wrap = document.createElement("div");
     wrap.className = "trend-wrap";
     var svg = document.createElementNS(svgNS, "svg");
@@ -775,16 +813,22 @@
     var top = 8, bottom = h - 12, plotH = bottom - top;
     function yFor(sec) {
       if (max === min) return top + plotH / 2;
-      return top + ((sec - min) / (max - min)) * plotH;
+      var frac = (sec - min) / (max - min);
+      if (higherIsBetter) frac = 1 - frac; // best result plotted at the top either way
+      return top + frac * plotH;
     }
     var first = points[0].sec, last = points[points.length - 1].sec;
-    var trend = points.length < 2 ? "flat" : (last < first ? "good" : (last > first ? "bad" : "flat"));
+    var improved = higherIsBetter ? last > first : last < first;
+    var worsened = higherIsBetter ? last < first : last > first;
+    var trend = points.length < 2 ? "flat" : (improved ? "good" : (worsened ? "bad" : "flat"));
     var coords = points.map(function (p) { return { x: xPos[p.idx], y: yFor(p.sec), sec: p.sec, idx: p.idx }; });
 
-    // Each segment (and the dot it leads into) is colored on its own: faster than the
-    // previous result = green, slower = red, unchanged = neutral. Not one color for the whole line.
+    // Each segment (and the dot it leads into) is colored on its own: an improvement on the
+    // previous result = green, a step back = red, unchanged = neutral. Not one color for the whole line.
     function segColor(prevSec, sec) {
-      return sec < prevSec ? "var(--good)" : sec > prevSec ? "var(--critical)" : "var(--neutral-mark)";
+      var better = higherIsBetter ? sec > prevSec : sec < prevSec;
+      var worse = higherIsBetter ? sec < prevSec : sec > prevSec;
+      return better ? "var(--good)" : worse ? "var(--critical)" : "var(--neutral-mark)";
     }
 
     for (var i = 1; i < coords.length; i++) {
@@ -819,7 +863,11 @@
       label.style.top = ((c.y / h) * 100) + "%";
       label.style.fontSize = h > 46 ? "11.5px" : "10.5px";
       label.style.transform = "translate(-50%, " + (c.y < above ? "5px" : "calc(-100% - 5px)") + ")";
-      label.textContent = fmtFn(c.sec);
+      if (capAt !== undefined && c.sec >= capAt) {
+        label.innerHTML = fmtFn(c.sec) + " <span class='cap-chip' style='margin-left:3px;'>CAP</span>";
+      } else {
+        label.textContent = fmtFn(c.sec);
+      }
       wrap.appendChild(label);
     });
 
@@ -834,6 +882,8 @@
   }
   function freestylePointsFor(name) { return pointsFor(FREESTYLE, name); }
   function sprintPointsFor(name) { return pointsFor(SPRINT, name); }
+  function gbHypoxicPointsFor(name) { return pointsFor(GB_HYPOXIC, name); }
+  function plankPointsFor(name) { return pointsFor(PLANK, name); }
 
   // ---------- splits gauge (shared) ----------
   function buildSplitGauge(score) {
@@ -944,45 +994,6 @@
     label.textContent = describeBackFlex(score) + " (" + score + ")";
     gauge.appendChild(label);
     cell.appendChild(gauge);
-    return cell;
-  }
-
-  // ---------- GB Hypoxic Swim cell (lower time = better; longer bar = better) ----------
-  var GB_HYPOXIC_VALS = Object.keys(GB_HYPOXIC).map(function (n) { return GB_HYPOXIC[n]; });
-  var GB_HYPOXIC_MIN = GB_HYPOXIC_VALS.length ? Math.min.apply(null, GB_HYPOXIC_VALS) : 0;
-  var GB_HYPOXIC_MAX = GB_HYPOXIC_VALS.length ? Math.max.apply(null, GB_HYPOXIC_VALS) : 1;
-
-  // Under 2:30 (150s) = green, under 3:30 (210s) = amber, 3:30 or over = red.
-  function gbHypoxicColor(sec) {
-    if (sec < 150) return "var(--good)";
-    if (sec < 210) return "var(--warning)";
-    return "var(--critical)";
-  }
-
-  function buildGBHypoxicCell(value) {
-    var cell = document.createElement("div");
-    cell.className = "bar-cell";
-    if (value === undefined) {
-      var missing = document.createElement("div");
-      missing.className = "gauge-missing";
-      missing.textContent = "Not recorded";
-      cell.appendChild(missing);
-      return cell;
-    }
-    var wrap = document.createElement("div");
-    wrap.className = "bar-wrap";
-    var track = document.createElement("div"); track.className = "bar-track"; wrap.appendChild(track);
-    var span = GB_HYPOXIC_MAX - GB_HYPOXIC_MIN;
-    var pct = span > 0 ? ((GB_HYPOXIC_MAX - value) / span) * 100 : 100;
-    pct = Math.max(4, Math.min(100, pct));
-    var fill = document.createElement("div");
-    fill.className = "bar-fill"; fill.style.width = pct + "%"; fill.style.background = gbHypoxicColor(value); wrap.appendChild(fill);
-    var val = document.createElement("div");
-    val.className = "bar-value";
-    val.style.left = "calc(" + Math.min(pct, 88) + "% + 6px)";
-    val.textContent = fmt(value);
-    wrap.appendChild(val);
-    cell.appendChild(wrap);
     return cell;
   }
 
@@ -1446,9 +1457,9 @@
   function renderGBHypoxicTest() {
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "GB Hypoxic Swim" }]);
     app.innerHTML = "";
-    app.appendChild(el("h1", null, "GB Hypoxic Swim"));
-    app.appendChild(el("span", "date-chip", "Latest session: " + GB_HYPOXIC_DATE));
-    app.appendChild(el("p", "subtitle", "A single-session snapshot of everyone's GB Hypoxic Swim time, shown as minutes:seconds. Lower is better."));
+    app.appendChild(el("h1", null, "GB Hypoxic Swim — Progress Tracker"));
+    app.appendChild(el("span", "date-chip", "Sessions: " + GB_HYPOXIC_DATES.join(" · ") + " 2026"));
+    app.appendChild(el("p", "subtitle", "Every swimmer's GB Hypoxic Swim time across two sessions, fastest at the top of each line. Lower time = better."));
     var improveGbHypoxic = buildImproveSection("gbhypoxic");
     if (improveGbHypoxic) app.appendChild(improveGbHypoxic);
 
@@ -1464,14 +1475,11 @@
       "<li>25m butterfly</li>" +
       "</ul>"));
 
-    app.appendChild(el("div", "color-key",
-      "<span><span class='swatch' style='background:var(--good)'></span>Under 2:30</span>" +
-      "<span><span class='swatch' style='background:var(--warning)'></span>Under 3:30</span>" +
-      "<span><span class='swatch' style='background:var(--critical)'></span>3:30 or over</span>"));
-
-    var names = MASTER_NAMES.slice();
-    var recordedCount = names.filter(function (n) { return GB_HYPOXIC[n] !== undefined; }).length;
-    app.appendChild(el("div", "legend", recordedCount + " / " + names.length + " swimmers have a recorded result so far."));
+    var legend = el("div", "legend",
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Got faster</span>" +
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Got slower</span>" +
+      "<span class='legend-item'><span class='swatch' style='background:var(--neutral-mark)'></span> Single result / no change</span>");
+    app.appendChild(legend);
 
     var toolbar = el("div", "toolbar");
     var search = document.createElement("input");
@@ -1481,22 +1489,53 @@
     toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
     app.appendChild(toolbar);
 
+    var xPos = [25, 75];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
-    var headRow = el("div", "grid-row head-row gr-onecol");
+    var headRow = el("div", "grid-row head-row gr-freestyle");
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
-    headRow.appendChild(el("div", "head-cell", "<div style='display:flex; justify-content:space-between;'><span>← Slower</span><span>Faster →</span></div>"));
+    var headDates = el("div", "head-dates");
+    GB_HYPOXIC_DATES.forEach(function (d, i) {
+      var s = el("span", "head-date", d);
+      s.style.left = xPos[i] + "%";
+      headDates.appendChild(s);
+    });
+    var headMid = el("div", "head-cell"); headMid.appendChild(headDates);
+    headRow.appendChild(headMid);
+    headRow.appendChild(el("div", "head-delta", "Change"));
     scroll.appendChild(headRow);
 
     var rows = el("div");
+    var names = MASTER_NAMES.slice();
     names.forEach(function (name) {
-      var row = el("div", "grid-row row gr-onecol");
+      var points = gbHypoxicPointsFor(name);
+      var row = el("div", "grid-row row gr-freestyle");
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
       row.appendChild(nameCell);
-      row.appendChild(buildGBHypoxicCell(GB_HYPOXIC[name]));
+
+      var chartCell = el("div", "chart-cell");
+      var deltaCell;
+      if (!points) {
+        chartCell.appendChild(el("div", "gauge-missing", "Not recorded"));
+        deltaCell = el("div", "delta-cell delta-flat", "—");
+      } else {
+        var built = buildFreestyleRowSVG(points, { xPos: xPos });
+        chartCell.appendChild(built.el);
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d < 0 ? "delta-good" : d > 0 ? "delta-bad" : "delta-flat"));
+          deltaCell.textContent = (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
+        }
+      }
+      row.appendChild(chartCell);
+      row.appendChild(deltaCell);
       rows.appendChild(row);
     });
     scroll.appendChild(rows); chartBoard.appendChild(scroll); app.appendChild(chartBoard);
@@ -1504,17 +1543,25 @@
     var tableBoard = el("div", "board"); tableBoard.style.display = "none";
     var tScroll = el("div", "board-scroll");
     var table = document.createElement("table"); table.className = "table-view";
-    var thead = "<thead><tr><th>Swimmer</th><th>GB Hypoxic Swim</th></tr></thead>";
+    var thead = "<thead><tr><th>Swimmer</th>" + GB_HYPOXIC_DATES.map(function (d) { return "<th>" + d + "</th>"; }).join("") + "<th>Change</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
+      var points = gbHypoxicPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      var v = GB_HYPOXIC[name];
-      var cellHtml = v === undefined ? "<td class='dash'>Not recorded</td>" : "<td class='num'><span class='swatch' style='background:" + gbHypoxicColor(v) + "'></span>" + fmt(v) + "</td>";
-      return "<tr>" + nameTd.outerHTML + cellHtml + "</tr>";
+      if (!points) {
+        var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
+      }
+      var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
+      var cells = [0, 1].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
+      // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
+      var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
+      return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
     }).join("") + "</tbody>";
     table.innerHTML = thead + tbody;
     tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
 
-    app.appendChild(el("p", "note", "Times shown as minutes:seconds. Sorted alphabetically."));
+    app.appendChild(el("p", "note", "Times shown as minutes:seconds."));
 
     var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
     wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
@@ -1673,17 +1720,15 @@
     wireToggle(toggleBtn, chartBoard, tableBoard);
   }
 
-  function renderTimeTest(kind) {
-    var DATA = kind === "plank" ? PLANK : WALLSIT;
+  function renderWallSitTest() {
+    var DATA = WALLSIT;
     var CUTOFF = 180;
-    var title = kind === "plank" ? "Plank Time Tracker" : "Wall Sit Tracker";
-    var label = kind === "plank" ? "Plank Time" : "Wall Sit Time";
-    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: label }]);
+    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "Wall Sit Time" }]);
     app.innerHTML = "";
-    app.appendChild(el("h1", null, title));
-    app.appendChild(el("span", "date-chip", "Recorded " + (kind === "plank" ? PLANK_DATE : WALLSIT_DATE)));
-    app.appendChild(el("p", "subtitle", "How long each swimmer held their " + (kind === "plank" ? "plank" : "wall sit") + ". Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
-    var improveTimeTest = buildImproveSection(kind);
+    app.appendChild(el("h1", null, "Wall Sit Tracker"));
+    app.appendChild(el("span", "date-chip", "Recorded " + WALLSIT_DATE));
+    app.appendChild(el("p", "subtitle", "How long each swimmer held their wall sit. Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
+    var improveTimeTest = buildImproveSection("wallsit");
     if (improveTimeTest) app.appendChild(improveTimeTest);
 
     var names = MASTER_NAMES.slice();
@@ -1740,7 +1785,7 @@
     var tableBoard = el("div", "board"); tableBoard.style.display = "none";
     var tScroll = el("div", "board-scroll");
     var table = document.createElement("table"); table.className = "table-view";
-    var thead = "<thead><tr><th>Swimmer</th><th>" + label + "</th></tr></thead>";
+    var thead = "<thead><tr><th>Swimmer</th><th>Wall Sit Time</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       var sec = DATA[name];
@@ -1755,6 +1800,113 @@
     tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
 
     app.appendChild(el("p", "note", "Times shown as minutes:seconds. Sorted alphabetically."));
+
+    var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
+    wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
+    wireToggle(toggleBtn, chartBoard, tableBoard);
+  }
+
+  function renderPlankTest() {
+    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "Plank Time" }]);
+    app.innerHTML = "";
+    app.appendChild(el("h1", null, "Plank Time — Progress Tracker"));
+    app.appendChild(el("span", "date-chip", "Sessions: " + PLANK_DATES.join(" · ") + " 2026"));
+    app.appendChild(el("p", "subtitle", "How long each swimmer held their plank, across two sessions where retested. Longer is better — the test was capped at 3:00, so anyone shown at 3:00 may have been able to hold longer."));
+    var improvePlank = buildImproveSection("plank");
+    if (improvePlank) app.appendChild(improvePlank);
+
+    var legend = el("div", "legend",
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Held longer</span>" +
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Held for less time</span>" +
+      "<span class='legend-item'><span class='swatch' style='background:var(--neutral-mark)'></span> Single result / no change</span>" +
+      "<span class='legend-item'><span class='cap-chip'>CAP</span>&nbsp;held the full 3:00 when the test stopped</span>");
+    app.appendChild(legend);
+
+    var toolbar = el("div", "toolbar");
+    var search = document.createElement("input");
+    search.className = "search"; search.type = "text"; search.placeholder = "Find a swimmer…"; search.autocomplete = "off";
+    var toggleBtn = document.createElement("button");
+    toggleBtn.className = "toggle-btn"; toggleBtn.type = "button"; toggleBtn.textContent = "Show as table";
+    toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
+    app.appendChild(toolbar);
+
+    var xPos = [25, 75];
+    var chartBoard = el("div", "board");
+    var scroll = el("div", "board-scroll");
+    var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.appendChild(el("div", "head-cell", "Swimmer"));
+    var headDates = el("div", "head-dates");
+    PLANK_DATES.forEach(function (d, i) {
+      var s = el("span", "head-date", d);
+      s.style.left = xPos[i] + "%";
+      headDates.appendChild(s);
+    });
+    var headMid = el("div", "head-cell"); headMid.appendChild(headDates);
+    headRow.appendChild(headMid);
+    headRow.appendChild(el("div", "head-delta", "Change"));
+    scroll.appendChild(headRow);
+
+    var rows = el("div");
+    var names = MASTER_NAMES.slice();
+    names.forEach(function (name) {
+      var points = plankPointsFor(name);
+      var row = el("div", "grid-row row gr-freestyle");
+      row.dataset.name = name.toLowerCase();
+      var nameCell = el("div", "name-cell");
+      var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
+      nameCell.appendChild(a);
+      row.appendChild(nameCell);
+
+      var chartCell = el("div", "chart-cell");
+      var deltaCell;
+      if (!points) {
+        chartCell.appendChild(el("div", "gauge-missing", "Not recorded"));
+        deltaCell = el("div", "delta-cell delta-flat", "—");
+      } else {
+        var built = buildFreestyleRowSVG(points, { xPos: xPos, higherIsBetter: true, capAt: 180 });
+        chartCell.appendChild(built.el);
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Longer hold = improvement here, so the sign logic is the opposite of the time-based tests.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d > 0 ? "delta-good" : d < 0 ? "delta-bad" : "delta-flat"));
+          deltaCell.textContent = (d > 0 ? "▲ " : d < 0 ? "▼ " : "– ") + fmt(Math.abs(d));
+        }
+      }
+      row.appendChild(chartCell);
+      row.appendChild(deltaCell);
+      rows.appendChild(row);
+    });
+    scroll.appendChild(rows); chartBoard.appendChild(scroll); app.appendChild(chartBoard);
+
+    var tableBoard = el("div", "board"); tableBoard.style.display = "none";
+    var tScroll = el("div", "board-scroll");
+    var table = document.createElement("table"); table.className = "table-view";
+    var thead = "<thead><tr><th>Swimmer</th>" + PLANK_DATES.map(function (d) { return "<th>" + d + "</th>"; }).join("") + "<th>Change</th></tr></thead>";
+    var tbody = "<tbody>" + names.map(function (name) {
+      var points = plankPointsFor(name);
+      var nameTd = document.createElement("td"); nameTd.textContent = name;
+      if (!points) {
+        var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
+      }
+      var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
+      var cells = [0, 1].map(function (i) {
+        if (byIdx[i] === undefined) return "<td class='dash'>—</td>";
+        var txt = fmt(byIdx[i]) + (byIdx[i] >= 180 ? " (cap)" : "");
+        return "<td class='num'>" + txt + "</td>";
+      }).join("");
+      // Longer hold = improvement, so the sign logic is the opposite of the time-based tests.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
+      var changeTxt = points.length < 2 ? "—" : (d > 0 ? "▲ " : d < 0 ? "▼ " : "– ") + fmt(Math.abs(d));
+      return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
+    }).join("") + "</tbody>";
+    table.innerHTML = thead + tbody;
+    tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
+
+    app.appendChild(el("p", "note", "Times shown as minutes:seconds."));
 
     var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
     wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
@@ -1817,11 +1969,15 @@
     // GB Hypoxic Swim card
     var ghCard = el("div", "profile-card");
     ghCard.appendChild(el("h3", null, "GB Hypoxic Swim"));
-    if (GB_HYPOXIC[name] === undefined) {
+    var ghPoints = gbHypoxicPointsFor(name);
+    if (!ghPoints) {
       ghCard.appendChild(el("p", "profile-empty", "Not recorded."));
     } else {
       ghCard.appendChild(el("p", "p-desc", "Lower time = better."));
-      ghCard.appendChild(buildGBHypoxicCell(GB_HYPOXIC[name]));
+      var ghChartWrap = el("div", "chart-cell"); ghChartWrap.style.height = "70px";
+      var ghBuilt = buildFreestyleRowSVG(ghPoints, { height: 70, xPos: [25, 75] });
+      ghChartWrap.appendChild(ghBuilt.el);
+      ghCard.appendChild(ghChartWrap);
     }
     var ghLink = document.createElement("a"); ghLink.className = "p-link"; ghLink.href = testHref("gbhypoxic"); ghLink.textContent = "See full GB Hypoxic Swim tracker →";
     ghCard.appendChild(ghLink);
@@ -1875,11 +2031,15 @@
     // Plank card
     var pkCard = el("div", "profile-card");
     pkCard.appendChild(el("h3", null, "Plank Time"));
-    if (PLANK[name] === undefined) {
+    var pkPoints = plankPointsFor(name);
+    if (!pkPoints) {
       pkCard.appendChild(el("p", "profile-empty", "Not recorded."));
     } else {
       pkCard.appendChild(el("p", "p-desc", "Longer is better. Capped at 3:00."));
-      pkCard.appendChild(buildTimeBar(PLANK[name], 180, holdTimeColor));
+      var pkChartWrap = el("div", "chart-cell"); pkChartWrap.style.height = "70px";
+      var pkBuilt = buildFreestyleRowSVG(pkPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, capAt: 180 });
+      pkChartWrap.appendChild(pkBuilt.el);
+      pkCard.appendChild(pkChartWrap);
     }
     var pkLink = document.createElement("a"); pkLink.className = "p-link"; pkLink.href = testHref("plank"); pkLink.textContent = "See full Plank Time tracker →";
     pkCard.appendChild(pkLink);
@@ -1913,8 +2073,8 @@
       if (parts[1] === "gbkickset") return renderGBKickSetTest();
       if (parts[1] === "backflex") return renderBackFlexTest();
       if (parts[1] === "splits") return renderSplitsTest();
-      if (parts[1] === "plank") return renderTimeTest("plank");
-      if (parts[1] === "wallsit") return renderTimeTest("wallsit");
+      if (parts[1] === "plank") return renderPlankTest();
+      if (parts[1] === "wallsit") return renderWallSitTest();
     }
     if (parts[0] === "swimmer" && parts[1]) {
       return renderSwimmer(decodeURIComponent(parts.slice(1).join("/")));
