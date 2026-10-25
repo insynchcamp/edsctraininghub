@@ -253,6 +253,7 @@
   .bar-cutoff-line { position: absolute; right: 0; top: 3px; bottom: 3px; width: 2px; background: var(--flat-line); opacity: .5; }
   .bar-value { position: absolute; top: -1px; font-size: 11.5px; font-weight: 600; color: var(--text-primary); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .cap-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--chip-cap-text); background: var(--chip-cap-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .academy-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--text-secondary); background: var(--chip-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; }
 
   .legend, .scale-key, .color-key { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 11.5px; color: var(--text-muted); margin: 0 0 16px; padding: 10px 14px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; }
   .info-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 16px; padding: 12px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 680px; }
@@ -758,6 +759,22 @@
 
   var MASTER_NAMES = ROSTER.slice().sort(function (a, b) { return a.localeCompare(b); });
 
+  // Academy swimmers are beginners and unlikely to have any test results yet — flagged with a
+  // small badge wherever their name appears so missing data reads as expected, not an error.
+  var ACADEMY = [
+    "Carmen Cao Blanco", "Chrissy Onac", "Elina Andossova", "Elizabeth Yu", "Ellie Onac",
+    "Elsie Saxton", "Georgie Martin", "Kesha Ramparsad", "Oliver Kan-Dapaah", "Pearl Bailey",
+    "Sasha Holt", "Sofia Gutierrez", "Vicky Nstai"
+  ];
+  function isAcademy(name) { return ACADEMY.indexOf(name) !== -1; }
+  function academyBadge() {
+    var b = document.createElement("span");
+    b.className = "academy-chip";
+    b.textContent = "Academy";
+    b.title = "Academy — a beginner swimmer, so may not have test results yet";
+    return b;
+  }
+
   // Names that show up in test results but aren't on the official roster above —
   // surfaced on the home page so they don't silently go missing.
   var UNROSTERED_WITH_DATA = Array.from(new Set(
@@ -1163,7 +1180,8 @@
       var a = document.createElement("a");
       a.className = "roster-link";
       a.href = nameHref(name);
-      a.textContent = name;
+      a.appendChild(document.createTextNode(name));
+      if (isAcademy(name)) a.appendChild(academyBadge());
       a.dataset.name = name.toLowerCase();
       roster.appendChild(a);
     });
@@ -1976,7 +1994,9 @@
       return;
     }
 
-    app.appendChild(el("h1", null, name));
+    var nameH1 = el("h1", null, name);
+    if (isAcademy(name)) nameH1.appendChild(academyBadge());
+    app.appendChild(nameH1);
     app.appendChild(el("span", "date-chip", "All results, Sat 5 Sep 2026 session"));
 
     var cards = el("div", "profile-cards");
