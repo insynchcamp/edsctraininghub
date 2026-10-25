@@ -22,6 +22,12 @@
     --warning:        #c98500;
     --critical:       #d03b3b;
     --neutral-mark:   #7a91ad;
+    --squad-spark:    #2a78d6;
+    --squad-blaze:    #c96a00;
+    --squad-ignite:   #c2255c;
+    --squad-ember:    #7c3aed;
+    --squad-inferno:  #b5390c;
+    --squad-champs:   #0f8a8a;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -45,6 +51,12 @@
       --warning:        #fab219;
       --critical:       #e66767;
       --neutral-mark:   #93a9c4;
+      --squad-spark:    #5b9fe8;
+      --squad-blaze:    #f0a94d;
+      --squad-ignite:   #e8699b;
+      --squad-ember:    #a78bfa;
+      --squad-inferno:  #e8692f;
+      --squad-champs:   #4dd4d4;
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -68,6 +80,12 @@
     --warning:        #fab219;
     --critical:       #e66767;
     --neutral-mark:   #93a9c4;
+    --squad-spark:    #5b9fe8;
+    --squad-blaze:    #f0a94d;
+    --squad-ignite:   #e8699b;
+    --squad-ember:    #a78bfa;
+    --squad-inferno:  #e8692f;
+    --squad-champs:   #4dd4d4;
   }
 
   * { box-sizing: border-box; }
@@ -255,6 +273,8 @@
   .cap-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--chip-cap-text); background: var(--chip-cap-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
   .academy-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--text-secondary); background: var(--chip-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; }
   .academy-dot { display: inline-block; width: 7px; height: 7px; min-width: 7px; flex: none; border-radius: 50%; background: var(--text-muted); margin-left: 5px; vertical-align: middle; cursor: help; }
+  .squad-chip { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; border: 1px solid currentColor; background: color-mix(in srgb, currentColor 14%, transparent); }
+  .squad-dot { display: inline-block; width: 7px; height: 7px; min-width: 7px; flex: none; border-radius: 50%; margin-left: 5px; vertical-align: middle; cursor: help; }
 
   .legend, .scale-key, .color-key { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 11.5px; color: var(--text-muted); margin: 0 0 16px; padding: 10px 14px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; }
   .info-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 16px; padding: 12px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 680px; }
@@ -784,6 +804,54 @@
     return d;
   }
 
+  // Squad assignments — every non-Academy swimmer belongs to exactly one squad. Colour is
+  // looked up per squad so adding a squad only means adding one entry here plus a CSS variable.
+  var SQUADS = {
+    "Spark Squad": ["Kiarra Chadha", "Phoebe Dimou", "Vivian Gao", "Elsie Jackson", "Eva Mei Lynam", "Rachel Nash", "Ruby Sumner", "Aurora Tallents Trimino", "Rosie Thackwray", "Heidi Voigt", "Zoe Winter", "Adele Zinger"],
+    "Blaze Squad": ["Beatrice Fielding", "Holly Gosling", "Felicity Hilton", "Arabella Joyce", "Charlotte (Lottie) Lansdell", "Marta Nicolaescu", "Kiara Ramparsad", "Rosie Reynolds", "Nora Simko Guerrero", "Clara Stoian", "Elizabeth Whitelaw"],
+    "Ignite Squad": ["Darina Andossova", "Gracie Keehan", "Mara Nicolaescu", "Sophie Scharl", "Bella Vanstone", "Maia Winter", "Yixin Xu", "Joanna Yu"],
+    "Ember Squad": ["Isabella Gerbi", "Mila Gunther", "Adala Kan-Dapaah", "Sienna Keys", "Morgane Landman", "Ava McDonald", "Amelie Millar", "Jasmina Piasecka", "Adela Stoian"],
+    "Inferno Squad": ["Maia Boundy", "Jessica Brooks", "Leah Brown", "Franki Chandler-Causon", "Louisa Hildebrandt", "Hazeley Kalisch", "Erika Kushnir", "Violet Lumb", "Zoë Moore", "Olivia Ostrowska", "Alara Sapmaz"],
+    "Champs Squad": ["Angeline Ng", "Sofia Rucci", "Georgina Steele"]
+  };
+  var SQUAD_COLOR_VAR = {
+    "Spark Squad": "--squad-spark",
+    "Blaze Squad": "--squad-blaze",
+    "Ignite Squad": "--squad-ignite",
+    "Ember Squad": "--squad-ember",
+    "Inferno Squad": "--squad-inferno",
+    "Champs Squad": "--squad-champs"
+  };
+  var SQUAD_OF = {};
+  Object.keys(SQUADS).forEach(function (sq) {
+    SQUADS[sq].forEach(function (n) { SQUAD_OF[n] = sq; });
+  });
+  function squadFor(name) { return SQUAD_OF[name] || null; }
+  function squadBadge(name) {
+    var sq = squadFor(name);
+    if (!sq) return null;
+    var b = document.createElement("span");
+    b.className = "squad-chip";
+    b.textContent = sq;
+    b.style.color = "var(" + SQUAD_COLOR_VAR[sq] + ")";
+    b.title = sq;
+    return b;
+  }
+  // Compact per-squad marker for dense result rows/tables — same reasoning as academyDot().
+  function squadDot(name) {
+    var sq = squadFor(name);
+    if (!sq) return null;
+    var d = document.createElement("span");
+    d.className = "squad-dot";
+    d.style.background = "var(" + SQUAD_COLOR_VAR[sq] + ")";
+    d.title = sq;
+    return d;
+  }
+  // Every swimmer is either Academy or in exactly one squad, never both — these pick whichever
+  // applies so each call site doesn't need to know about both systems.
+  function memberBadge(name) { return isAcademy(name) ? academyBadge() : squadBadge(name); }
+  function memberDot(name) { return isAcademy(name) ? academyDot() : squadDot(name); }
+
   // Names that show up in test results but aren't on the official roster above —
   // surfaced on the home page so they don't silently go missing.
   var UNROSTERED_WITH_DATA = Array.from(new Set(
@@ -1190,7 +1258,7 @@
       a.className = "roster-link";
       a.href = nameHref(name);
       a.appendChild(document.createTextNode(name));
-      if (isAcademy(name)) a.appendChild(academyBadge());
+      var rosterBadge = memberBadge(name); if (rosterBadge) a.appendChild(rosterBadge);
       a.dataset.name = name.toLowerCase();
       roster.appendChild(a);
     });
@@ -1261,7 +1329,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
 
       var chartCell = el("div", "chart-cell");
@@ -1297,7 +1365,7 @@
     var tbody = "<tbody>" + names.map(function (name) {
       var points = freestylePointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
         var emptyCells = [0, 1, 2, 3, 4, 5].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
@@ -1371,7 +1439,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
 
       var chartCell = el("div", "chart-cell");
@@ -1405,7 +1473,7 @@
     var tbody = "<tbody>" + names.map(function (name) {
       var points = sprintPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
         var emptyCells = [0, 1, 2, 3].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
@@ -1463,7 +1531,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
       row.appendChild(buildBackFlexGauge(BACK_FLEX[name]));
       rows.appendChild(row);
@@ -1476,7 +1544,7 @@
     var thead = "<thead><tr><th>Swimmer</th><th>Back Flexibility</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       var v = BACK_FLEX[name];
       var cellHtml = v === undefined ? "<td class='dash'>Not recorded</td>" : "<td class='num'><span class='swatch' style='background:" + backFlexColor(v) + "'></span>" + describeBackFlex(v) + " (" + v + ")</td>";
       return "<tr>" + nameTd.outerHTML + cellHtml + "</tr>";
@@ -1554,7 +1622,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
 
       var chartCell = el("div", "chart-cell");
@@ -1588,7 +1656,7 @@
     var tbody = "<tbody>" + names.map(function (name) {
       var points = gbHypoxicPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
         var emptyCells = [0, 1, 2].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
@@ -1674,7 +1742,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
 
       var chartCell = el("div", "chart-cell");
@@ -1708,7 +1776,7 @@
     var tbody = "<tbody>" + names.map(function (name) {
       var points = gbKickSetPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
         var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
@@ -1772,7 +1840,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
       var swimmerSplits = SPLITS[name];
       ["left", "right", "box"].forEach(function (k) { row.appendChild(buildSplitGauge(swimmerSplits ? swimmerSplits[k] : undefined)); });
@@ -1786,7 +1854,7 @@
     var thead = "<thead><tr><th>Swimmer</th><th>Left Leg Split</th><th>Right Leg Split</th><th>Box Split</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       var swimmerSplits = SPLITS[name];
       var cells = ["left", "right", "box"].map(function (k) {
         var s = swimmerSplits ? swimmerSplits[k] : undefined;
@@ -1861,7 +1929,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
       row.appendChild(buildTimeBar(DATA[name], CUTOFF, holdTimeColor));
       rows.appendChild(row);
@@ -1874,7 +1942,7 @@
     var thead = "<thead><tr><th>Swimmer</th><th>Wall Sit Time</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       var sec = DATA[name];
       if (sec === undefined) {
         return "<tr>" + nameTd.outerHTML + "<td class='dash'>Not recorded</td></tr>";
@@ -1945,7 +2013,7 @@
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
-      if (isAcademy(name)) nameCell.appendChild(academyDot());
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
 
       var chartCell = el("div", "chart-cell");
@@ -1979,7 +2047,7 @@
     var tbody = "<tbody>" + names.map(function (name) {
       var points = plankPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      if (isAcademy(name)) nameTd.appendChild(academyDot());
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
         var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
@@ -2020,7 +2088,7 @@
     }
 
     var nameH1 = el("h1", null, name);
-    if (isAcademy(name)) nameH1.appendChild(academyBadge());
+    var profileBadge = memberBadge(name); if (profileBadge) nameH1.appendChild(profileBadge);
     app.appendChild(nameH1);
     app.appendChild(el("span", "date-chip", "All results, Sat 5 Sep 2026 session"));
 
