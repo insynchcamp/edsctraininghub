@@ -561,52 +561,53 @@
   };
 
   // idx 0 = Sat 19 Sep 2026, idx 1 = Sun 4 Oct 2026. Lower time = better. Times shown as minutes:seconds.
-  var GB_HYPOXIC_DATES = ["Sat 19 Sep", "Sun 4 Oct"];
+  var GB_HYPOXIC_DATES = ["Sat 19 Sep", "Sun 4 Oct", "Sat 24 Oct"];
   var GB_HYPOXIC = {
-    "Adala Kan-Dapaah": {0: 202, 1: 188.33},
+    "Adala Kan-Dapaah": {0: 202, 1: 188.33, 2: 195.82},
     "Adela Stoian": {0: 206, 1: 199.68},
     "Adele Zinger": {1: 185.96},
-    "Alara Sapmaz": {1: 160.3},
-    "Amelie Millar": {0: 188, 1: 187.05},
-    "Arabella Joyce": {0: 206, 1: 225.7},
+    "Alara Sapmaz": {1: 160.3, 2: 156.39},
+    "Amelie Millar": {0: 188, 1: 187.05, 2: 182.21},
+    "Arabella Joyce": {0: 206, 1: 225.7, 2: 210.51},
     "Ava McDonald": {0: 176, 1: 175.24},
-    "Beatrice Fielding": {0: 195, 1: 178.01},
-    "Bella Vanstone": {0: 218, 1: 214.78},
+    "Beatrice Fielding": {0: 195, 1: 178.01, 2: 172.9},
+    "Bella Vanstone": {0: 218, 1: 214.78, 2: 210.13},
     "Charlotte (Lottie) Lansdell": {1: 212.47},
-    "Clara Stoian": {0: 190, 1: 194.69},
-    "Darina Andossova": {1: 229.65},
+    "Clara Stoian": {0: 190, 1: 194.69, 2: 182.46},
+    "Darina Andossova": {1: 229.65, 2: 215.62},
     "Elizabeth Whitelaw": {1: 192.78},
     "Elsie Jackson": {1: 393.76},
     "Erika Kushnir": {1: 179.94},
     "Eva Mei Lynam": {1: 243.97},
-    "Felicity Hilton": {0: 227, 1: 229.52},
+    "Felicity Hilton": {0: 227, 1: 229.52, 2: 151.03},
     "Franki Chandler-Causon": {1: 155.12},
-    "Gracie Keehan": {0: 237, 1: 243.4},
-    "Hazeley Kalisch": {0: 184, 1: 156.5},
+    "Gracie Keehan": {0: 237, 1: 243.4, 2: 211.65},
+    "Hazeley Kalisch": {0: 184, 1: 156.5, 2: 152.19},
     "Heidi Voigt": {1: 328.49},
-    "Holly Gosling": {0: 182, 1: 176.23},
-    "Isabella Gerbi": {0: 205},
-    "Jasmina Piasecka": {0: 183, 1: 174.42},
+    "Holly Gosling": {0: 182, 1: 176.23, 2: 178.54},
+    "Isabella Gerbi": {0: 205, 2: 198.32},
+    "Jasmina Piasecka": {0: 183, 1: 174.42, 2: 172.36},
     "Jessica Brooks": {0: 180, 1: 148.19},
-    "Joanna Yu": {1: 259.57},
-    "Kiara Ramparsad": {0: 267, 1: 248.71},
+    "Joanna Yu": {1: 259.57, 2: 204.36},
+    "Kiara Ramparsad": {0: 267, 1: 248.71, 2: 225.49},
     "Kiarra Chadha": {1: 299.73},
     "Leah Brown": {1: 183.82},
     "Louisa Hildebrandt": {1: 187.78},
     "Maia Boundy": {0: 157},
-    "Maia Winter": {0: 220, 1: 222.52},
+    "Maia Winter": {0: 220, 1: 222.52, 2: 212.02},
     "Mara Nicolaescu": {0: 221, 1: 230.3},
     "Marta Nicolaescu": {0: 235},
-    "Mila Gunther": {0: 179, 1: 175.26},
+    "Mila Gunther": {0: 179, 1: 175.26, 2: 171.38},
     "Morgane Landman": {1: 177.49},
     "Nora Simko Guerrero": {0: 187, 1: 194.2},
     "Olivia Ostrowska": {1: 187.67},
     "Phoebe Dimou": {1: 254.25},
     "Rachel Nash": {1: 326.01},
-    "Rosie Reynolds": {0: 250},
+    "Rosie Reynolds": {0: 250, 2: 193.48},
     "Rosie Thackwray": {1: 245.73},
     "Ruby Sumner": {1: 280.89},
-    "Sienna Keys": {0: 186, 1: 182.58},
+    "Sienna Keys": {0: 186, 1: 182.58, 2: 176.17},
+    "Sofia Rucci": {2: 203.06},
     "Sophie Scharl": {0: 195},
     "Violet Lumb": {1: 189.59},
     "Vivian Gao": {1: 214.92},
@@ -672,7 +673,7 @@
   var TESTS = [
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across six sessions, with a trend line for anyone swum more than once." },
     { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across four sessions, with a trend line for anyone who's sprinted more than once." },
-    { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across two sessions, with a trend line for anyone tested more than once." },
+    { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across three sessions, with a trend line for anyone tested more than once." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "A single-session snapshot of everyone's GB Kick Set time. Lower is better." },
     { id: "splits", title: "Splits", icon: "🤸", desc: "Left leg, right leg and box split, measured against a flat split." },
     { id: "backflex", title: "Back Flexibility", icon: "🌉", desc: "Bridge distance between fingertips and heels, on a 1-8 scale. Higher is more flexible." },
@@ -733,7 +734,7 @@
     "Kesha Ramparsad", "Kiara Ramparsad", "Kiarra Chadha", "Leah Brown", "Louisa Hildebrandt",
     "Maia Boundy", "Maia Winter", "Mara Nicolaescu", "Marta Nicolaescu", "Mila Gunther",
     "Morgane Landman", "Nora Simko Guerrero", "Oliver Kan-Dapaah", "Olivia Ostrowska", "Pearl Bailey", "Phoebe Dimou",
-    "Rachel Nash", "Rosie Reynolds", "Rosie Thackwray", "Ruby Sumner", "Sarah Fitz-Gerald", "Sasha Holt",
+    "Rachel Nash", "Rosie Reynolds", "Rosie Thackwray", "Ruby Sumner", "Sasha Holt",
     "Sienna Keys", "Sofia Gutierrez", "Sofia Rucci", "Sophie Scharl", "Vicky Nstai", "Violet Lumb",
     "Vivian Gao", "Yixin Xu", "Zoë Moore", "Zoe Winter"
   ];
@@ -1468,13 +1469,13 @@
     app.innerHTML = "";
     app.appendChild(el("h1", null, "GB Hypoxic Swim — Progress Tracker"));
     app.appendChild(el("span", "date-chip", "Sessions: " + GB_HYPOXIC_DATES.join(" · ") + " 2026"));
-    app.appendChild(el("p", "subtitle", "Every swimmer's GB Hypoxic Swim time across two sessions, fastest at the top of each line. Lower time = better."));
+    app.appendChild(el("p", "subtitle", "Every swimmer's GB Hypoxic Swim time across three sessions, fastest at the top of each line. Lower time = better."));
     var improveGbHypoxic = buildImproveSection("gbhypoxic");
     if (improveGbHypoxic) app.appendChild(improveGbHypoxic);
 
     app.appendChild(el("div", "info-box",
       "<p><strong>What the set is:</strong> A speed swimming set used at GB National Team trials.</p>" +
-      "<p>Athletes start with a dive. Time the first 6 lengths. Athletes have 30 seconds rest to climb out and then repeat the 6 lengths. Time the second 6 lengths. Aim for both times to be under 3 minutes. Record the time of the slowest 6 lengths.</p>" +
+      "<p>Athletes start with a dive. Time the 6 lengths. Aim for time to be under 3 minutes.</p>" +
       "<p><strong>The 6 lengths:</strong></p>" +
       "<ul>" +
       "<li>25m butterfly</li>" +
@@ -1498,7 +1499,7 @@
     toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
     app.appendChild(toolbar);
 
-    var xPos = [25, 75];
+    var xPos = [15, 50, 85];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
     var headRow = el("div", "grid-row head-row gr-freestyle");
@@ -1557,11 +1558,11 @@
       var points = gbHypoxicPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       if (!points) {
-        var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        var emptyCells = [0, 1, 2].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
       }
       var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
-      var cells = [0, 1].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
+      var cells = [0, 1, 2].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
       // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
       var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
       var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
@@ -1984,7 +1985,7 @@
     } else {
       ghCard.appendChild(el("p", "p-desc", "Lower time = better."));
       var ghChartWrap = el("div", "chart-cell"); ghChartWrap.style.height = "70px";
-      var ghBuilt = buildFreestyleRowSVG(ghPoints, { height: 70, xPos: [25, 75] });
+      var ghBuilt = buildFreestyleRowSVG(ghPoints, { height: 70, xPos: [15, 50, 85] });
       ghChartWrap.appendChild(ghBuilt.el);
       ghCard.appendChild(ghChartWrap);
     }
