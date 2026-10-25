@@ -895,6 +895,15 @@
   function gbHypoxicPointsFor(name) { return pointsFor(GB_HYPOXIC, name); }
   function plankPointsFor(name) { return pointsFor(PLANK, name); }
 
+  // Trend-chart rows (gr-freestyle) ship a 620px CSS min-width, which is enough room for
+  // up to ~4 date labels in the middle column before they start overlapping on mobile,
+  // where the row can't stretch past its min-width. Tests with more sessions need a wider
+  // floor so each date label (e.g. "SUN 27 SEP") has ~100px of breathing room; this grows
+  // automatically as more sessions are added instead of needing a manual per-test tweak.
+  function gridRowMinWidth(sessionCount) {
+    return Math.max(620, 168 + 82 + sessionCount * 100);
+  }
+
   // ---------- splits gauge (shared) ----------
   function buildSplitGauge(score) {
     var cell = document.createElement("div");
@@ -1220,7 +1229,9 @@
 
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
+    var rowMinWidth = gridRowMinWidth(DATES.length);
     var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
     var headDates = el("div", "head-dates");
     var xPos = [8, 25, 42, 58, 75, 92];
@@ -1239,6 +1250,7 @@
     names.forEach(function (name) {
       var points = freestylePointsFor(name);
       var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
@@ -1326,7 +1338,9 @@
     var xPos = [12, 37, 63, 88];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
+    var rowMinWidth = gridRowMinWidth(SPRINT_DATES.length);
     var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
     var headDates = el("div", "head-dates");
     SPRINT_DATES.forEach(function (d, i) {
@@ -1344,6 +1358,7 @@
     names.forEach(function (name) {
       var points = sprintPointsFor(name);
       var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
@@ -1502,7 +1517,9 @@
     var xPos = [15, 50, 85];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
+    var rowMinWidth = gridRowMinWidth(GB_HYPOXIC_DATES.length);
     var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
     var headDates = el("div", "head-dates");
     GB_HYPOXIC_DATES.forEach(function (d, i) {
@@ -1520,6 +1537,7 @@
     names.forEach(function (name) {
       var points = gbHypoxicPointsFor(name);
       var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
@@ -1843,7 +1861,9 @@
     var xPos = [25, 75];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
+    var rowMinWidth = gridRowMinWidth(PLANK_DATES.length);
     var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
     var headDates = el("div", "head-dates");
     PLANK_DATES.forEach(function (d, i) {
@@ -1861,6 +1881,7 @@
     names.forEach(function (name) {
       var points = plankPointsFor(name);
       var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
