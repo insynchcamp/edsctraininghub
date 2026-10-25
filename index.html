@@ -616,36 +616,53 @@
   };
 
   // Single session so far (Sun 20 Sep 2026). Lower time = better. Times shown as minutes:seconds.
-  var GB_KICK_SET_DATE = "Sun 20 Sep 2026";
+  var GB_KICK_SET_DATES = ["Sun 20 Sep", "Sun 25 Oct"];
   var GB_KICK_SET = {
-    "Adala Kan-Dapaah": 319,
-    "Adela Stoian": 328,
-    "Adele Zinger": 361,
-    "Alara Sapmaz": 278,
-    "Amelie Millar": 290,
-    "Aurora Tallents Trimino": 416,
-    "Clara Stoian": 321,
-    "Elsie Jackson": 519,
-    "Eva Mei Lynam": 373,
-    "Franki Chandler-Causon": 284,
-    "Hazeley Kalisch": 278,
-    "Heidi Voigt": 464,
-    "Isabella Gerbi": 303,
-    "Jasmina Piasecka": 292,
-    "Jessica Brooks": 295,
-    "Kiara Ramparsad": 301,
-    "Leah Brown": 261,
-    "Marta Nicolaescu": 347,
-    "Mila Gunther": 266,
-    "Nora Simko Guerrero": 325,
-    "Phoebe Dimou": 454,
-    "Rachel Nash": 460,
-    "Ruby Sumner": 448,
-    "Sienna Keys": 302,
-    "Violet Lumb": 268,
-    "Vivian Gao": 370,
-    "Zoe Winter": 457,
-    "Zoë Moore": 295
+    "Adala Kan-Dapaah": {0: 319},
+    "Adela Stoian": {0: 328},
+    "Adele Zinger": {0: 361},
+    "Alara Sapmaz": {0: 278, 1: 272},
+    "Amelie Millar": {0: 290, 1: 286},
+    "Arabella Joyce": {1: 257.46},
+    "Aurora Tallents Trimino": {0: 416},
+    "Ava McDonald": {1: 276.26},
+    "Beatrice Fielding": {1: 296.99},
+    "Bella Vanstone": {1: 348.37},
+    "Charlotte (Lottie) Lansdell": {1: 287.38},
+    "Clara Stoian": {0: 321, 1: 291.16},
+    "Darina Andossova": {1: 346.12},
+    "Elizabeth Whitelaw": {1: 305},
+    "Elsie Jackson": {0: 519},
+    "Erika Kushnir": {1: 261},
+    "Eva Mei Lynam": {0: 373},
+    "Felicity Hilton": {1: 301},
+    "Franki Chandler-Causon": {0: 284},
+    "Gracie Keehan": {1: 376.03},
+    "Hazeley Kalisch": {0: 278, 1: 273},
+    "Heidi Voigt": {0: 464, 1: 482.04},
+    "Holly Gosling": {1: 282.13},
+    "Isabella Gerbi": {0: 303, 1: 296.66},
+    "Jasmina Piasecka": {0: 292, 1: 288.38},
+    "Jessica Brooks": {0: 295},
+    "Joanna Yu": {1: 357.21},
+    "Kiara Ramparsad": {0: 301, 1: 287.29},
+    "Kiarra Chadha": {1: 470.65},
+    "Leah Brown": {0: 261},
+    "Louisa Hildebrandt": {1: 277},
+    "Maia Winter": {1: 357.59},
+    "Marta Nicolaescu": {0: 347},
+    "Mila Gunther": {0: 266, 1: 285.02},
+    "Morgane Landman": {1: 258},
+    "Nora Simko Guerrero": {0: 325, 1: 302.27},
+    "Olivia Ostrowska": {1: 260},
+    "Phoebe Dimou": {0: 454},
+    "Rachel Nash": {0: 460, 1: 478.19},
+    "Ruby Sumner": {0: 448},
+    "Sienna Keys": {0: 302, 1: 297.09},
+    "Violet Lumb": {0: 268},
+    "Vivian Gao": {0: 370},
+    "Zoe Winter": {0: 457},
+    "Zoë Moore": {0: 295},
   };
 
   // ---------- overall "latest session" (auto-computed from every test's own date label(s), so the
@@ -661,7 +678,7 @@
     return new Date(m[3] ? +m[3] : 2026, month, +m[1]);
   }
   function latestSessionLabel() {
-    var allLabels = DATES.concat(SPRINT_DATES, PLANK_DATES, GB_HYPOXIC_DATES, [SPLITS_DATE, WALLSIT_DATE, BACK_FLEX_DATE, GB_KICK_SET_DATE]);
+    var allLabels = DATES.concat(SPRINT_DATES, PLANK_DATES, GB_HYPOXIC_DATES, GB_KICK_SET_DATES, [SPLITS_DATE, WALLSIT_DATE, BACK_FLEX_DATE]);
     var best = null, bestDate = null;
     allLabels.forEach(function (label) {
       var d = parseSessionDateLabel(label);
@@ -674,7 +691,7 @@
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across six sessions, with a trend line for anyone swum more than once." },
     { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across four sessions, with a trend line for anyone who's sprinted more than once." },
     { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across three sessions, with a trend line for anyone tested more than once." },
-    { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "A single-session snapshot of everyone's GB Kick Set time. Lower is better." },
+    { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "Times across two sessions, with a trend line for anyone tested more than once." },
     { id: "splits", title: "Splits", icon: "🤸", desc: "Left leg, right leg and box split, measured against a flat split." },
     { id: "backflex", title: "Back Flexibility", icon: "🌉", desc: "Bridge distance between fingertips and heels, on a 1-8 scale. Higher is more flexible." },
     { id: "plank", title: "Plank Time", icon: "⏱️", desc: "How long each swimmer held their plank, with a trend line for anyone tested more than once. Capped at 3:00." },
@@ -894,6 +911,7 @@
   function sprintPointsFor(name) { return pointsFor(SPRINT, name); }
   function gbHypoxicPointsFor(name) { return pointsFor(GB_HYPOXIC, name); }
   function plankPointsFor(name) { return pointsFor(PLANK, name); }
+  function gbKickSetPointsFor(name) { return pointsFor(GB_KICK_SET, name); }
 
   // Trend-chart rows (gr-freestyle) ship a 620px CSS min-width, which is enough room for
   // up to ~4 date labels in the middle column before they start overlapping on mobile,
@@ -1013,45 +1031,6 @@
     label.textContent = describeBackFlex(score) + " (" + score + ")";
     gauge.appendChild(label);
     cell.appendChild(gauge);
-    return cell;
-  }
-
-  // ---------- GB Kick Set cell (lower time = better; longer bar = better) ----------
-  var GB_KICK_SET_VALS = Object.keys(GB_KICK_SET).map(function (n) { return GB_KICK_SET[n]; });
-  var GB_KICK_SET_MIN = GB_KICK_SET_VALS.length ? Math.min.apply(null, GB_KICK_SET_VALS) : 0;
-  var GB_KICK_SET_MAX = GB_KICK_SET_VALS.length ? Math.max.apply(null, GB_KICK_SET_VALS) : 1;
-
-  // Under 3:45 (225s) = green, under 4:45 (285s) = amber, 4:45 or over = red.
-  function gbKickSetColor(sec) {
-    if (sec < 225) return "var(--good)";
-    if (sec < 285) return "var(--warning)";
-    return "var(--critical)";
-  }
-
-  function buildGBKickSetCell(value) {
-    var cell = document.createElement("div");
-    cell.className = "bar-cell";
-    if (value === undefined) {
-      var missing = document.createElement("div");
-      missing.className = "gauge-missing";
-      missing.textContent = "Not recorded";
-      cell.appendChild(missing);
-      return cell;
-    }
-    var wrap = document.createElement("div");
-    wrap.className = "bar-wrap";
-    var track = document.createElement("div"); track.className = "bar-track"; wrap.appendChild(track);
-    var span = GB_KICK_SET_MAX - GB_KICK_SET_MIN;
-    var pct = span > 0 ? ((GB_KICK_SET_MAX - value) / span) * 100 : 100;
-    pct = Math.max(4, Math.min(100, pct));
-    var fill = document.createElement("div");
-    fill.className = "bar-fill"; fill.style.width = pct + "%"; fill.style.background = gbKickSetColor(value); wrap.appendChild(fill);
-    var val = document.createElement("div");
-    val.className = "bar-value";
-    val.style.left = "calc(" + Math.min(pct, 88) + "% + 6px)";
-    val.textContent = fmt(value);
-    wrap.appendChild(val);
-    cell.appendChild(wrap);
     return cell;
   }
 
@@ -1599,9 +1578,9 @@
   function renderGBKickSetTest() {
     setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "GB Kick Set" }]);
     app.innerHTML = "";
-    app.appendChild(el("h1", null, "GB Kick Set"));
-    app.appendChild(el("span", "date-chip", "Latest session: " + GB_KICK_SET_DATE));
-    app.appendChild(el("p", "subtitle", "A single-session snapshot of everyone's GB Kick Set time, shown as minutes:seconds. Lower is better."));
+    app.appendChild(el("h1", null, "GB Kick Set — Progress Tracker"));
+    app.appendChild(el("span", "date-chip", "Sessions: " + GB_KICK_SET_DATES.join(" · ") + " 2026"));
+    app.appendChild(el("p", "subtitle", "Every swimmer's GB Kick Set time across two sessions, fastest at the top of each line. Lower time = better."));
     var improveGbKickSet = buildImproveSection("gbkickset");
     if (improveGbKickSet) app.appendChild(improveGbKickSet);
 
@@ -1618,14 +1597,11 @@
       "</ul>" +
       "<p>Record the time for each athlete — aim for under 4 minutes.</p>"));
 
-    app.appendChild(el("div", "color-key",
-      "<span><span class='swatch' style='background:var(--good)'></span>Under 3:45</span>" +
-      "<span><span class='swatch' style='background:var(--warning)'></span>Under 4:45</span>" +
-      "<span><span class='swatch' style='background:var(--critical)'></span>4:45 or over</span>"));
-
-    var names = MASTER_NAMES.slice();
-    var recordedCount = names.filter(function (n) { return GB_KICK_SET[n] !== undefined; }).length;
-    app.appendChild(el("div", "legend", recordedCount + " / " + names.length + " swimmers have a recorded result so far."));
+    var legend = el("div", "legend",
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Got faster</span>" +
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Got slower</span>" +
+      "<span class='legend-item'><span class='swatch' style='background:var(--neutral-mark)'></span> Single result / no change</span>");
+    app.appendChild(legend);
 
     var toolbar = el("div", "toolbar");
     var search = document.createElement("input");
@@ -1635,22 +1611,56 @@
     toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
     app.appendChild(toolbar);
 
+    var xPos = [25, 75];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
-    var headRow = el("div", "grid-row head-row gr-onecol");
+    var rowMinWidth = gridRowMinWidth(GB_KICK_SET_DATES.length);
+    var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
-    headRow.appendChild(el("div", "head-cell", "<div style='display:flex; justify-content:space-between;'><span>← Slower</span><span>Faster →</span></div>"));
+    var headDates = el("div", "head-dates");
+    GB_KICK_SET_DATES.forEach(function (d, i) {
+      var s = el("span", "head-date", d);
+      s.style.left = xPos[i] + "%";
+      headDates.appendChild(s);
+    });
+    var headMid = el("div", "head-cell"); headMid.appendChild(headDates);
+    headRow.appendChild(headMid);
+    headRow.appendChild(el("div", "head-delta", "Change"));
     scroll.appendChild(headRow);
 
     var rows = el("div");
+    var names = MASTER_NAMES.slice();
     names.forEach(function (name) {
-      var row = el("div", "grid-row row gr-onecol");
+      var points = gbKickSetPointsFor(name);
+      var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
       row.appendChild(nameCell);
-      row.appendChild(buildGBKickSetCell(GB_KICK_SET[name]));
+
+      var chartCell = el("div", "chart-cell");
+      var deltaCell;
+      if (!points) {
+        chartCell.appendChild(el("div", "gauge-missing", "Not recorded"));
+        deltaCell = el("div", "delta-cell delta-flat", "—");
+      } else {
+        var built = buildFreestyleRowSVG(points, { xPos: xPos });
+        chartCell.appendChild(built.el);
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d < 0 ? "delta-good" : d > 0 ? "delta-bad" : "delta-flat"));
+          deltaCell.textContent = (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
+        }
+      }
+      row.appendChild(chartCell);
+      row.appendChild(deltaCell);
       rows.appendChild(row);
     });
     scroll.appendChild(rows); chartBoard.appendChild(scroll); app.appendChild(chartBoard);
@@ -1658,20 +1668,28 @@
     var tableBoard = el("div", "board"); tableBoard.style.display = "none";
     var tScroll = el("div", "board-scroll");
     var table = document.createElement("table"); table.className = "table-view";
-    var thead = "<thead><tr><th>Swimmer</th><th>GB Kick Set</th></tr></thead>";
+    var thead = "<thead><tr><th>Swimmer</th>" + GB_KICK_SET_DATES.map(function (d) { return "<th>" + d + "</th>"; }).join("") + "<th>Change</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
+      var points = gbKickSetPointsFor(name);
       var nameTd = document.createElement("td"); nameTd.textContent = name;
-      var v = GB_KICK_SET[name];
-      var cellHtml = v === undefined ? "<td class='dash'>Not recorded</td>" : "<td class='num'><span class='swatch' style='background:" + gbKickSetColor(v) + "'></span>" + fmt(v) + "</td>";
-      return "<tr>" + nameTd.outerHTML + cellHtml + "</tr>";
+      if (!points) {
+        var emptyCells = [0, 1].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
+      }
+      var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
+      var cells = [0, 1].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmt(byIdx[i]) + "</td>" : "<td class='dash'>—</td>"; }).join("");
+      // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
+      var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmt(Math.abs(d));
+      return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
     }).join("") + "</tbody>";
     table.innerHTML = thead + tbody;
     tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
 
-    app.appendChild(el("p", "note", "Times shown as minutes:seconds. Sorted alphabetically."));
+    app.appendChild(el("p", "note", "Times shown as minutes:seconds."));
 
-    var rowEls2 = Array.prototype.slice.call(rows.querySelectorAll(".row"));
-    wireSearch(search, rowEls2, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
+    var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
+    wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
     wireToggle(toggleBtn, chartBoard, tableBoard);
   }
 
@@ -2017,11 +2035,15 @@
     // GB Kick Set card
     var gkCard = el("div", "profile-card");
     gkCard.appendChild(el("h3", null, "GB Kick Set"));
-    if (GB_KICK_SET[name] === undefined) {
+    var gkPoints = gbKickSetPointsFor(name);
+    if (!gkPoints) {
       gkCard.appendChild(el("p", "profile-empty", "Not recorded."));
     } else {
       gkCard.appendChild(el("p", "p-desc", "Lower time = better."));
-      gkCard.appendChild(buildGBKickSetCell(GB_KICK_SET[name]));
+      var gkChartWrap = el("div", "chart-cell"); gkChartWrap.style.height = "70px";
+      var gkBuilt = buildFreestyleRowSVG(gkPoints, { height: 70, xPos: [25, 75] });
+      gkChartWrap.appendChild(gkBuilt.el);
+      gkCard.appendChild(gkChartWrap);
     }
     var gkLink = document.createElement("a"); gkLink.className = "p-link"; gkLink.href = testHref("gbkickset"); gkLink.textContent = "See full GB Kick Set tracker →";
     gkCard.appendChild(gkLink);
