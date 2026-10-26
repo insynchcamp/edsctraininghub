@@ -265,9 +265,9 @@
   [data-tip]:hover::after, [data-tip]:focus::after, [data-tip]:active::after {
     content: attr(data-tip);
     position: absolute;
-    bottom: calc(100% + 7px);
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(100% + 7px);
+    top: 50%;
+    transform: translateY(-50%);
     background: var(--text-primary);
     color: var(--surface-1);
     font-size: 11px;
@@ -282,11 +282,11 @@
   [data-tip]:hover::before, [data-tip]:focus::before, [data-tip]:active::before {
     content: "";
     position: absolute;
-    bottom: calc(100% + 2px);
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(100% + 2px);
+    top: 50%;
+    transform: translateY(-50%);
     border: 5px solid transparent;
-    border-top-color: var(--text-primary);
+    border-right-color: var(--text-primary);
     pointer-events: none;
     z-index: 20;
   }
