@@ -253,8 +253,8 @@
   .bar-cutoff-line { position: absolute; right: 0; top: 3px; bottom: 3px; width: 2px; background: var(--flat-line); opacity: .5; }
   .bar-value { position: absolute; top: -1px; font-size: 11.5px; font-weight: 600; color: var(--text-primary); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .cap-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--chip-cap-text); background: var(--chip-cap-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
-  .academy-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--text-secondary); background: var(--chip-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; }
-  .academy-dot { display: inline-block; width: 7px; height: 7px; min-width: 7px; flex: none; border-radius: 50%; background: var(--text-muted); margin-left: 5px; vertical-align: middle; cursor: help; }
+  .academy-emoji-badge { display: inline-block; font-size: 14px; line-height: 1; margin-left: 6px; vertical-align: middle; cursor: help; }
+  .academy-emoji-dot { display: inline-block; font-size: 11px; line-height: 1; flex: none; margin-left: 4px; vertical-align: middle; cursor: help; }
   .squad-emoji-badge { display: inline-block; font-size: 14px; line-height: 1; margin-left: 6px; vertical-align: middle; cursor: help; }
   .squad-emoji-dot { display: inline-block; font-size: 11px; line-height: 1; flex: none; margin-left: 4px; vertical-align: middle; cursor: help; }
 
@@ -770,18 +770,20 @@
     "Sasha Holt", "Sofia Gutierrez", "Vicky Nstai"
   ];
   function isAcademy(name) { return ACADEMY.indexOf(name) !== -1; }
+  var ACADEMY_EMOJI = "🧜‍♀️";
   function academyBadge() {
     var b = document.createElement("span");
-    b.className = "academy-chip";
-    b.textContent = "Academy";
+    b.className = "academy-emoji-badge";
+    b.textContent = ACADEMY_EMOJI;
     b.title = "Academy — a beginner swimmer, so may not have test results yet";
     return b;
   }
   // Compact marker for dense result rows/tables, where the narrow name column doesn't have
-  // room for the full "Academy" text chip without truncating the swimmer's name.
+  // room for the full badge without truncating the swimmer's name.
   function academyDot() {
     var d = document.createElement("span");
-    d.className = "academy-dot";
+    d.className = "academy-emoji-dot";
+    d.textContent = ACADEMY_EMOJI;
     d.title = "Academy — a beginner swimmer, so may not have test results yet";
     return d;
   }
