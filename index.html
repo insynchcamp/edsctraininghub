@@ -771,19 +771,22 @@
   ];
   function isAcademy(name) { return ACADEMY.indexOf(name) !== -1; }
   var ACADEMY_EMOJI = "🧜‍♀️";
-  function academyBadge() {
+  // Per-swimmer overrides of the default Academy emoji (e.g. a merman for a boy).
+  var ACADEMY_EMOJI_OVERRIDE = { "Oliver Kan-Dapaah": "🧜‍♂️" };
+  function academyEmojiFor(name) { return ACADEMY_EMOJI_OVERRIDE[name] || ACADEMY_EMOJI; }
+  function academyBadge(name) {
     var b = document.createElement("span");
     b.className = "academy-emoji-badge";
-    b.textContent = ACADEMY_EMOJI;
+    b.textContent = academyEmojiFor(name);
     b.title = "Academy — a beginner swimmer, so may not have test results yet";
     return b;
   }
   // Compact marker for dense result rows/tables, where the narrow name column doesn't have
   // room for the full badge without truncating the swimmer's name.
-  function academyDot() {
+  function academyDot(name) {
     var d = document.createElement("span");
     d.className = "academy-emoji-dot";
-    d.textContent = ACADEMY_EMOJI;
+    d.textContent = academyEmojiFor(name);
     d.title = "Academy — a beginner swimmer, so may not have test results yet";
     return d;
   }
@@ -832,8 +835,8 @@
   }
   // Every swimmer is either Academy or in exactly one squad, never both — these pick whichever
   // applies so each call site doesn't need to know about both systems.
-  function memberBadge(name) { return isAcademy(name) ? academyBadge() : squadBadge(name); }
-  function memberDot(name) { return isAcademy(name) ? academyDot() : squadDot(name); }
+  function memberBadge(name) { return isAcademy(name) ? academyBadge(name) : squadBadge(name); }
+  function memberDot(name) { return isAcademy(name) ? academyDot(name) : squadDot(name); }
 
   // Names that show up in test results but aren't on the official roster above —
   // surfaced on the home page so they don't silently go missing.
