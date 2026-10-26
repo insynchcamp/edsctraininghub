@@ -22,12 +22,6 @@
     --warning:        #c98500;
     --critical:       #d03b3b;
     --neutral-mark:   #7a91ad;
-    --squad-spark:    #2a78d6;
-    --squad-blaze:    #c96a00;
-    --squad-ignite:   #c2255c;
-    --squad-ember:    #7c3aed;
-    --squad-inferno:  #b5390c;
-    --squad-champs:   #0f8a8a;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -51,12 +45,6 @@
       --warning:        #fab219;
       --critical:       #e66767;
       --neutral-mark:   #93a9c4;
-      --squad-spark:    #5b9fe8;
-      --squad-blaze:    #f0a94d;
-      --squad-ignite:   #e8699b;
-      --squad-ember:    #a78bfa;
-      --squad-inferno:  #e8692f;
-      --squad-champs:   #4dd4d4;
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -80,12 +68,6 @@
     --warning:        #fab219;
     --critical:       #e66767;
     --neutral-mark:   #93a9c4;
-    --squad-spark:    #5b9fe8;
-    --squad-blaze:    #f0a94d;
-    --squad-ignite:   #e8699b;
-    --squad-ember:    #a78bfa;
-    --squad-inferno:  #e8692f;
-    --squad-champs:   #4dd4d4;
   }
 
   * { box-sizing: border-box; }
@@ -273,8 +255,8 @@
   .cap-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--chip-cap-text); background: var(--chip-cap-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
   .academy-chip { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--text-secondary); background: var(--chip-bg); padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; }
   .academy-dot { display: inline-block; width: 7px; height: 7px; min-width: 7px; flex: none; border-radius: 50%; background: var(--text-muted); margin-left: 5px; vertical-align: middle; cursor: help; }
-  .squad-chip { display: inline-block; font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; cursor: help; border: 1px solid currentColor; background: color-mix(in srgb, currentColor 14%, transparent); }
-  .squad-dot { display: inline-block; width: 7px; height: 7px; min-width: 7px; flex: none; border-radius: 50%; margin-left: 5px; vertical-align: middle; cursor: help; }
+  .squad-emoji-badge { display: inline-block; font-size: 14px; line-height: 1; margin-left: 6px; vertical-align: middle; cursor: help; }
+  .squad-emoji-dot { display: inline-block; font-size: 11px; line-height: 1; flex: none; margin-left: 4px; vertical-align: middle; cursor: help; }
 
   .legend, .scale-key, .color-key { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 11.5px; color: var(--text-muted); margin: 0 0 16px; padding: 10px 14px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; }
   .info-box { font-size: 12.5px; color: var(--text-secondary); margin: 0 0 16px; padding: 12px 16px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; line-height: 1.55; max-width: 680px; }
@@ -814,13 +796,13 @@
     "Inferno Squad": ["Maia Boundy", "Jessica Brooks", "Leah Brown", "Franki Chandler-Causon", "Louisa Hildebrandt", "Hazeley Kalisch", "Erika Kushnir", "Violet Lumb", "Zoë Moore", "Olivia Ostrowska", "Alara Sapmaz"],
     "Champs Squad": ["Angeline Ng", "Sofia Rucci", "Georgina Steele"]
   };
-  var SQUAD_COLOR_VAR = {
-    "Spark Squad": "--squad-spark",
-    "Blaze Squad": "--squad-blaze",
-    "Ignite Squad": "--squad-ignite",
-    "Ember Squad": "--squad-ember",
-    "Inferno Squad": "--squad-inferno",
-    "Champs Squad": "--squad-champs"
+  var SQUAD_EMOJI = {
+    "Spark Squad": "✨",
+    "Blaze Squad": "🌟",
+    "Ignite Squad": "💥",
+    "Ember Squad": "🔥",
+    "Inferno Squad": "🌋",
+    "Champs Squad": "🧡"
   };
   var SQUAD_OF = {};
   Object.keys(SQUADS).forEach(function (sq) {
@@ -831,9 +813,8 @@
     var sq = squadFor(name);
     if (!sq) return null;
     var b = document.createElement("span");
-    b.className = "squad-chip";
-    b.textContent = sq;
-    b.style.color = "var(" + SQUAD_COLOR_VAR[sq] + ")";
+    b.className = "squad-emoji-badge";
+    b.textContent = SQUAD_EMOJI[sq];
     b.title = sq;
     return b;
   }
@@ -842,8 +823,8 @@
     var sq = squadFor(name);
     if (!sq) return null;
     var d = document.createElement("span");
-    d.className = "squad-dot";
-    d.style.background = "var(" + SQUAD_COLOR_VAR[sq] + ")";
+    d.className = "squad-emoji-dot";
+    d.textContent = SQUAD_EMOJI[sq];
     d.title = sq;
     return d;
   }
