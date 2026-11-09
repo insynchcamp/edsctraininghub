@@ -596,59 +596,60 @@
 
   // idx 0 = Sun 30 Aug 2026, idx 1 = Sun 13 Sep 2026. Where a swimmer had two attempts
   // logged on the same date, the faster (lower) time is kept as that session's result.
-  var SPRINT_DATES = ["Sun 30 Aug", "Sun 13 Sep", "Sat 3 Oct", "Sun 18 Oct"];
+  var SPRINT_DATES = ["Sun 30 Aug", "Sun 13 Sep", "Sat 3 Oct", "Sun 18 Oct", "Sat 7 Nov"];
   var SPRINT = {
-    "Adala Kan-Dapaah": {1: 45.73, 3: 47.28},
-    "Adela Stoian": {2: 50.04, 3: 47.65},
+    "Adala Kan-Dapaah": {1: 45.73, 3: 47.28, 4: 48.35},
+    "Adela Stoian": {2: 50.04, 3: 47.65, 4: 49.17},
     "Adele Zinger": {0: 42.17, 1: 43.17, 3: 48.87},
-    "Alara Sapmaz": {0: 39.06, 1: 37.52, 3: 36.7},
-    "Amelie Millar": {1: 42.48, 2: 41.99, 3: 48.15},
+    "Alara Sapmaz": {0: 39.06, 1: 37.52, 3: 36.7, 4: 36.46},
+    "Amelie Millar": {1: 42.48, 2: 41.99, 3: 48.15, 4: 44.27},
     "Angeline Ng": {1: 32.16},
-    "Arabella Joyce": {0: 54.14, 1: 48.23, 2: 48.61, 3: 45.57},
+    "Arabella Joyce": {0: 54.14, 1: 48.23, 2: 48.61, 3: 45.57, 4: 54.94},
     "Aurora Tallents Trimino": {0: 71.00, 1: 55.31, 3: 77.79},
-    "Ava McDonald": {1: 38.47, 2: 40.42, 3: 38.72},
+    "Ava McDonald": {1: 38.47, 2: 40.42, 3: 38.72, 4: 41.26},
     "Beatrice Fielding": {1: 44.21, 2: 44.58, 3: 43.32},
-    "Bella Vanstone": {0: 52.18, 1: 54.15, 2: 56.73, 3: 52.56},
-    "Charlotte (Lottie) Lansdell": {0: 49.31, 2: 44.7, 3: 44.31},
+    "Bella Vanstone": {0: 52.18, 1: 54.15, 2: 56.73, 3: 52.56, 4: 65.84},
+    "Charlotte (Lottie) Lansdell": {0: 49.31, 2: 44.7, 3: 44.31, 4: 50.46},
     "Clara Stoian": {1: 47.82, 2: 43.14, 3: 44.01},
     "Darina Andossova": {1: 48.42, 2: 55.26, 3: 49.38},
-    "Elizabeth Whitelaw": {0: 46.50, 2: 47.99},
+    "Elizabeth Whitelaw": {0: 46.50, 2: 47.99, 4: 49.3},
     "Elsie Jackson": {1: 72.51, 3: 61.24},
-    "Erika Kushnir": {3: 38.54},
+    "Erika Kushnir": {3: 38.54, 4: 39.28},
     "Eva Mei Lynam": {1: 51.7, 3: 27.74},
-    "Felicity Hilton": {0: 56.62, 1: 53.22, 2: 55.92, 3: 55.14},
+    "Felicity Hilton": {0: 56.62, 1: 53.22, 2: 55.92, 3: 55.14, 4: 55.39},
     "Franki Chandler-Causon": {1: 36.1},
-    "Georgina Steele": {1: 33.56},
-    "Gracie Keehan": {1: 53.52, 2: 58.39, 3: 50.27},
-    "Hazeley Kalisch": {1: 34.13},
+    "Georgina Steele": {1: 33.56, 4: 32.87},
+    "Gracie Keehan": {1: 53.52, 2: 58.39, 3: 50.27, 4: 62.84},
+    "Hazeley Kalisch": {1: 34.13, 4: 40.52},
     "Heidi Voigt": {1: 63.91},
     "Holly Gosling": {0: 41.42, 2: 42.38, 3: 43.34},
-    "Isabella Gerbi": {1: 44.28, 2: 49.5, 3: 44.67},
-    "Jasmina Piasecka": {0: 37.31, 1: 38.42, 2: 39.49, 3: 37.36},
-    "Jessica Brooks": {0: 37.79, 1: 38.21, 3: 38.93},
-    "Joanna Yu": {0: 45.69, 1: 48.2, 2: 61.13, 3: 48.81},
-    "Kiara Ramparsad": {2: 55.55, 3: 49.55},
+    "Isabella Gerbi": {1: 44.28, 2: 49.5, 3: 44.67, 4: 46.59},
+    "Jasmina Piasecka": {0: 37.31, 1: 38.42, 2: 39.49, 3: 37.36, 4: 38.87},
+    "Jessica Brooks": {0: 37.79, 1: 38.21, 3: 38.93, 4: 39.85},
+    "Joanna Yu": {0: 45.69, 1: 48.2, 2: 61.13, 3: 48.81, 4: 49.73},
+    "Kiara Ramparsad": {2: 55.55, 3: 49.55, 4: 59.77},
     "Kiarra Chadha": {1: 55.62, 3: 58.71},
-    "Leah Brown": {1: 39.36, 3: 41.49},
+    "Leah Brown": {1: 39.36, 3: 41.49, 4: 41.7},
     "Louisa Hildebrandt": {1: 37.12},
-    "Maia Winter": {1: 59.37, 2: 53.48, 3: 58.55},
-    "Mara Nicolaescu": {1: 58.06, 2: 56.51, 3: 58.83},
+    "Maia Boundy": {4: 33.53},
+    "Maia Winter": {1: 59.37, 2: 53.48, 3: 58.55, 4: 59.69},
+    "Mara Nicolaescu": {1: 58.06, 2: 56.51, 3: 58.83, 4: 60.02},
     "Marta Nicolaescu": {1: 55.11},
-    "Mila Gunther": {0: 40.22, 1: 39.92, 2: 45.29, 3: 39.8},
-    "Morgane Landman": {3: 34.54},
+    "Mila Gunther": {0: 40.22, 1: 39.92, 2: 45.29, 3: 39.8, 4: 38.92},
+    "Morgane Landman": {3: 34.54, 4: 37.63},
     "Nora Simko Guerrero": {2: 39.42, 3: 39.66},
-    "Olivia Ostrowska": {1: 36.39, 3: 37.74},
+    "Olivia Ostrowska": {1: 36.39, 3: 37.74, 4: 37.12},
     "Phoebe Dimou": {1: 49.55, 3: 64.99},
     "Rachel Nash": {3: 69.38},
     "Rosie Reynolds": {0: 40.59, 1: 44.12, 2: 43.56, 3: 44.34},
     "Rosie Thackwray": {0: 51.30, 1: 50.1},
     "Ruby Sumner": {0: 54.28, 1: 51.86, 3: 61.38},
-    "Sienna Keys": {0: 41.07, 1: 37.39, 3: 38.32},
+    "Sienna Keys": {0: 41.07, 1: 37.39, 3: 38.32, 4: 41},
     "Sophie Scharl": {2: 47.59, 3: 46.45},
     "Vivian Gao": {0: 58.59, 1: 49.22, 3: 61.17},
     "Yixin Xu": {2: 59.31, 3: 53.13},
     "Zoe Winter": {1: 51.9, 3: 65.13},
-    "Zoë Moore": {0: 36.31, 1: 37.52, 3: 36.41}
+    "Zoë Moore": {0: 36.31, 1: 37.52, 3: 36.41, 4: 37.97}
   };
 
   // Single session so far (Sat 19 Sep 2026). Score is the 1-8 bridge-distance scale.
@@ -809,7 +810,7 @@
 
   var TESTS = [
     { id: "freestyle", title: "400m Freestyle", icon: "🏊", desc: "Times across seven sessions, with a trend line for anyone swum more than once." },
-    { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across four sessions, with a trend line for anyone who's sprinted more than once." },
+    { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across five sessions, with a trend line for anyone who's sprinted more than once." },
     { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across three sessions, with a trend line for anyone tested more than once." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "Times across two sessions, with a trend line for anyone tested more than once." },
     { id: "right-split", title: "Right Leg Split", icon: "🤸", desc: "Right leg split, measured against a flat split, with a trend line for anyone tested more than once." },
@@ -1540,7 +1541,7 @@
     toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
     app.appendChild(toolbar);
 
-    var xPos = [12, 37, 63, 88];
+    var xPos = [12, 31, 50, 69, 88];
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
     var rowMinWidth = gridRowMinWidth(SPRINT_DATES.length);
@@ -1604,11 +1605,11 @@
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
       if (!points) {
-        var emptyCells = [0, 1, 2, 3].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        var emptyCells = [0, 1, 2, 3, 4].map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
         return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
       }
       var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
-      var cells = [0, 1, 2, 3].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmtSprint(byIdx[i]) + "s</td>" : "<td class='dash'>—</td>"; }).join("");
+      var cells = [0, 1, 2, 3, 4].map(function (i) { return byIdx[i] !== undefined ? "<td class='num'>" + fmtSprint(byIdx[i]) + "s</td>" : "<td class='dash'>—</td>"; }).join("");
       // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
       var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
       var changeTxt = points.length < 2 ? "—" : (d < 0 ? "▼ " : d > 0 ? "▲ " : "– ") + fmtSprint(Math.abs(d)) + "s";
@@ -2371,7 +2372,7 @@
     } else {
       spr50Card.appendChild(el("p", "p-desc", "Lower time = faster."));
       var sprChartWrap = el("div", "chart-cell"); sprChartWrap.style.height = "70px";
-      var sprBuilt = buildFreestyleRowSVG(sprintPoints, { height: 70, xPos: [12, 37, 63, 88], fmtFn: fmtSprint });
+      var sprBuilt = buildFreestyleRowSVG(sprintPoints, { height: 70, xPos: [12, 31, 50, 69, 88], fmtFn: fmtSprint });
       sprChartWrap.appendChild(sprBuilt.el);
       spr50Card.appendChild(sprChartWrap);
     }
