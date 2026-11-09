@@ -998,14 +998,11 @@
     if (score === 6) return "var(--warning)";
     return "var(--good)";
   }
-  var SPLIT_SPREAD = (function () {
-    var all = [];
-    Object.keys(RIGHT_SPLIT).forEach(function (n) { Object.keys(RIGHT_SPLIT[n]).forEach(function (k) { all.push(RIGHT_SPLIT[n][k]); }); });
-    Object.keys(LEFT_SPLIT).forEach(function (n) { Object.keys(LEFT_SPLIT[n]).forEach(function (k) { all.push(LEFT_SPLIT[n][k]); }); });
-    Object.keys(BOX_SPLIT).forEach(function (n) { all.push(BOX_SPLIT[n]); });
-    return Math.max.apply(null, all.map(function (s) { return Math.abs(s - 6); }));
-  })();
-  var SPLIT_DOMAIN_MIN = 6 - SPLIT_SPREAD, SPLIT_DOMAIN_MAX = 6 + SPLIT_SPREAD;
+  // Fixed scale, not data-driven: the furthest a split can physically go past flat is 40cm
+  // (20cm front leg + 20cm back leg), i.e. a score of 10 (and symmetrically 2 for 40cm undersplit).
+  // A recorded result beyond that (e.g. an 11) still shows its real value in the label, but the
+  // dot/gauge position simply pins to the edge of the scale rather than stretching it.
+  var SPLIT_DOMAIN_MIN = 2, SPLIT_DOMAIN_MAX = 10;
   function splitPosPct(score) { return ((score - SPLIT_DOMAIN_MIN) / (SPLIT_DOMAIN_MAX - SPLIT_DOMAIN_MIN)) * 100; }
   function rightSplitPointsFor(name) { return pointsFor(RIGHT_SPLIT, name); }
   function leftSplitPointsFor(name) { return pointsFor(LEFT_SPLIT, name); }
@@ -1032,6 +1029,13 @@
     // capAt marks a value that hit the test's time cap (e.g. Plank/Wall Sit stopped at 3:00) —
     // shown with a small CAP chip next to the value since the swimmer may have gone longer.
     var capAt = opts.capAt;
+    // dotColorFn colors every dot by its own absolute value (e.g. Splits: red/amber/green by
+    // score) instead of the default relative-to-previous-point coloring used for every other dot.
+    var dotColorFn = opts.dotColorFn;
+    // sameIsGood treats an unchanged result between two sessions as a good (green) segment
+    // rather than neutral — appropriate for a test like Splits where holding steady is a fine
+    // outcome, not "no progress".
+    var sameIsGood = !!opts.sameIsGood;
     var wrap = document.createElement("div");
     wrap.className = "trend-wrap";
     var svg = document.createElementNS(svgNS, "svg");
@@ -1070,7 +1074,9 @@
       if (capAt !== undefined && prevSec >= capAt && sec >= capAt) return "var(--good)";
       var better = higherIsBetter ? sec > prevSec : sec < prevSec;
       var worse = higherIsBetter ? sec < prevSec : sec > prevSec;
-      return better ? "var(--good)" : worse ? "var(--critical)" : "var(--neutral-mark)";
+      if (better) return "var(--good)";
+      if (worse) return "var(--critical)";
+      return sameIsGood ? "var(--good)" : "var(--neutral-mark)";
     }
 
     for (var i = 1; i < coords.length; i++) {
@@ -1087,7 +1093,7 @@
     coords.forEach(function (c, i) {
       // A capped result is green on its own, even as the very first point (no previous segment to compare against).
       var atCap = capAt !== undefined && c.sec >= capAt;
-      var dotColor = atCap ? "var(--good)" : (i === 0 ? "var(--neutral-mark)" : segColor(coords[i - 1].sec, c.sec));
+      var dotColor = dotColorFn ? dotColorFn(c.sec) : (atCap ? "var(--good)" : (i === 0 ? "var(--neutral-mark)" : segColor(coords[i - 1].sec, c.sec)));
       var dot = document.createElementNS(svgNS, "circle");
       dot.setAttribute("cx", c.x); dot.setAttribute("cy", c.y);
       dot.setAttribute("r", h > 46 ? 3.2 : 2.6);
@@ -1936,9 +1942,8 @@
       "<span><span class='swatch' style='background:var(--good)'></span>7 or higher</span>"));
 
     var legend = el("div", "legend",
-      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Improved</span>" +
-      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Got worse</span>" +
-      "<span class='legend-item'><span class='swatch' style='background:var(--neutral-mark)'></span> Single result / no change</span>");
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Improved or stayed the same</span>" +
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Got worse</span>");
     app.appendChild(legend);
 
     var toolbar = el("div", "toolbar");
@@ -1986,7 +1991,7 @@
         chartCell.appendChild(el("div", "gauge-missing", "Not recorded"));
         deltaCell = el("div", "delta-cell delta-flat", "—");
       } else {
-        var built = buildFreestyleRowSVG(points, { xPos: xPos, higherIsBetter: true, fmtFn: fmtSplitScore });
+        var built = buildFreestyleRowSVG(points, { xPos: xPos, higherIsBetter: true, fmtFn: fmtSplitScore, dotColorFn: splitColor, sameIsGood: true });
         chartCell.appendChild(built.el);
         if (points.length < 2) {
           deltaCell = el("div", "delta-cell delta-flat", "—");
@@ -1994,7 +1999,7 @@
           // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
           var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
           var d = recentLast - recentPrev;
-          deltaCell = el("div", "delta-cell " + (d > 0 ? "delta-good" : d < 0 ? "delta-bad" : "delta-flat"));
+          deltaCell = el("div", "delta-cell " + (d >= 0 ? "delta-good" : "delta-bad"));
           deltaCell.textContent = (d > 0 ? "▲ " : d < 0 ? "▼ " : "– ") + Math.abs(d);
         }
       }
@@ -2430,7 +2435,7 @@
     } else {
       rsCard.appendChild(el("p", "p-desc", "Flat split = 6. Higher is better."));
       var rsChartWrap = el("div", "chart-cell"); rsChartWrap.style.height = "70px";
-      var rsBuilt = buildFreestyleRowSVG(rsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore });
+      var rsBuilt = buildFreestyleRowSVG(rsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore, dotColorFn: splitColor, sameIsGood: true });
       rsChartWrap.appendChild(rsBuilt.el);
       rsCard.appendChild(rsChartWrap);
     }
@@ -2447,7 +2452,7 @@
     } else {
       lsCard.appendChild(el("p", "p-desc", "Flat split = 6. Higher is better."));
       var lsChartWrap = el("div", "chart-cell"); lsChartWrap.style.height = "70px";
-      var lsBuilt = buildFreestyleRowSVG(lsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore });
+      var lsBuilt = buildFreestyleRowSVG(lsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore, dotColorFn: splitColor, sameIsGood: true });
       lsChartWrap.appendChild(lsBuilt.el);
       lsCard.appendChild(lsChartWrap);
     }
