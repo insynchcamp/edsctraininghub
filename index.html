@@ -355,7 +355,6 @@
 <script>
 (function () {
   var DATES = ["Sat 7 Feb", "Sun 9 Aug", "Sun 23 Aug", "Sat 5 Sep", "Sun 27 Sep", "Sat 17 Oct", "Sun 1 Nov"];
-  var SPLITS_DATE = "Sat 5 Sep 2026";
   var PLANK_DATES = ["Sat 5 Sep", "Sat 3 Oct"];
   var WALLSIT_DATE = "Sat 5 Sep 2026";
 
@@ -413,41 +412,130 @@
     "Zoë Moore": {0:416,1:400,2:369,4:382,5:357.66,6:375}
   };
 
-  var SPLITS = {
-    "Adala Kan-Dapaah": { left: 5, right: 5, box: 3 },
-    "Adela Stoian": { left: 4, right: 4, box: 3 },
-    "Alara Sapmaz": { left: 9, right: 10, box: 6 },
-    "Amelie Millar": { left: 5, right: 5, box: 3 },
-    "Arabella Joyce": { left: 5, right: 5, box: 4 },
-    "Beatrice Fielding": { left: 5, right: 5, box: 4 },
-    "Bella Vanstone": { left: 5, right: 4, box: 4 },
-    "Clara Stoian": { left: 6, right: 7, box: 4 },
-    "Darina Andossova": { left: 7, right: 4, box: 4 },
-    "Erika Kushnir": { left: 6, right: 6, box: 4 },
-    "Felicity Hilton": { left: 4, right: 4, box: 3 },
-    "Franki Chandler-Causon": { left: 6, right: 6, box: 4 },
-    "Gracie Keehan": { left: 5, right: 6, box: 5 },
-    "Hazeley Kalisch": { left: 5, right: 7, box: 6 },
-    "Holly Gosling": { left: 4, right: 3, box: 3 },
-    "Isabella Gerbi": { left: 4, right: 5, box: 3 },
-    "Jasmina Piasecka": { left: 5, right: 6, box: 3 },
-    "Jessica Brooks": { left: 8, right: 6, box: 5 },
-    "Joanna Yu": { left: 5, right: 4, box: 4 },
-    "Kiara Ramparsad": { left: 3, right: 2, box: 1 },
-    "Leah Brown": { left: 4, right: 5, box: 3 },
-    "Maia Boundy": { left: 11, right: 10, box: 5 },
-    "Maia Winter": { left: 4, right: 4, box: 3 },
-    "Mara Nicolaescu": { left: 4, right: 5, box: 3 },
-    "Marta Nicolaescu": { left: 5, right: 4, box: 2 },
-    "Mila Gunther": { left: 4, right: 6, box: 4 },
-    "Morgane Landman": { left: 5, right: 4, box: 3 },
-    "Nora Simko Guerrero": { left: 6, right: 4, box: 3 },
-    "Olivia Ostrowska": { left: 5, right: 4, box: 4 },
-    "Rosie Reynolds": { left: 6, right: 9, box: 6 },
-    "Sienna Keys": { left: 7, right: 5, box: 5 },
-    "Sophie Scharl": { left: 4, right: 5, box: 3 },
-    "Vivian Gao": { left: 7, right: 6, box: 6 },
-    "Yixin Xu": { left: 6, right: 7, box: 6 }
+  // idx 0 = Sat 5 Sep 2026, idx 1 = Sat 7 Nov 2026. Score runs 1 (furthest undersplit) to ~11
+  // (furthest oversplit seen); 6 = flat split. Higher score = better.
+  var RIGHT_SPLIT_DATES = ["Sat 5 Sep", "Sat 7 Nov"];
+  var RIGHT_SPLIT = {
+    "Adala Kan-Dapaah": {0:5,1:6},
+    "Adela Stoian": {0:4,1:5},
+    "Alara Sapmaz": {0:10,1:10},
+    "Amelie Millar": {0:5,1:6},
+    "Arabella Joyce": {0:5,1:6},
+    "Ava McDonald": {1:8},
+    "Beatrice Fielding": {0:5,1:5},
+    "Bella Vanstone": {0:4,1:5},
+    "Charlotte (Lottie) Lansdell": {1:4},
+    "Clara Stoian": {0:7,1:8},
+    "Darina Andossova": {0:4,1:5},
+    "Elizabeth Whitelaw": {1:10},
+    "Erika Kushnir": {0:6,1:6},
+    "Felicity Hilton": {0:4,1:5},
+    "Franki Chandler-Causon": {0:6},
+    "Gracie Keehan": {0:6,1:6},
+    "Hazeley Kalisch": {0:7,1:8},
+    "Holly Gosling": {0:3,1:4},
+    "Isabella Gerbi": {0:5,1:5},
+    "Jasmina Piasecka": {0:6,1:6},
+    "Jessica Brooks": {0:6,1:6},
+    "Joanna Yu": {0:4,1:4},
+    "Kiara Ramparsad": {0:2,1:4},
+    "Leah Brown": {0:5,1:5},
+    "Maia Boundy": {0:10,1:10},
+    "Maia Winter": {0:4,1:5},
+    "Mara Nicolaescu": {0:5,1:5},
+    "Marta Nicolaescu": {0:4,1:5},
+    "Mila Gunther": {0:6,1:6},
+    "Morgane Landman": {0:4,1:4},
+    "Nora Simko Guerrero": {0:4},
+    "Olivia Ostrowska": {0:4,1:5},
+    "Rosie Reynolds": {0:9,1:8},
+    "Sienna Keys": {0:5,1:6},
+    "Sophie Scharl": {0:5},
+    "Vivian Gao": {0:6,1:6},
+    "Yixin Xu": {0:7},
+    "Zoë Moore": {1:10}
+  };
+
+  // idx 0 = Sat 5 Sep 2026, idx 1 = Sat 7 Nov 2026. Same 1-11 scale as Right Split; 6 = flat split.
+  var LEFT_SPLIT_DATES = ["Sat 5 Sep", "Sat 7 Nov"];
+  var LEFT_SPLIT = {
+    "Adala Kan-Dapaah": {0:5,1:6},
+    "Adela Stoian": {0:4,1:5},
+    "Alara Sapmaz": {0:9,1:9},
+    "Amelie Millar": {0:5,1:6},
+    "Arabella Joyce": {0:5,1:6},
+    "Ava McDonald": {1:10},
+    "Beatrice Fielding": {0:5,1:5},
+    "Bella Vanstone": {0:5,1:5},
+    "Charlotte (Lottie) Lansdell": {1:4},
+    "Clara Stoian": {0:6,1:5},
+    "Darina Andossova": {0:7,1:8},
+    "Elizabeth Whitelaw": {1:7},
+    "Erika Kushnir": {0:6,1:5},
+    "Felicity Hilton": {0:4,1:5},
+    "Franki Chandler-Causon": {0:6},
+    "Gracie Keehan": {0:5,1:5},
+    "Hazeley Kalisch": {0:5,1:6},
+    "Holly Gosling": {0:4,1:4},
+    "Isabella Gerbi": {0:4,1:5},
+    "Jasmina Piasecka": {0:5,1:5},
+    "Jessica Brooks": {0:8,1:8},
+    "Joanna Yu": {0:5,1:6},
+    "Kiara Ramparsad": {0:3,1:4},
+    "Leah Brown": {0:4,1:5},
+    "Maia Boundy": {0:11,1:10},
+    "Maia Winter": {0:4,1:4},
+    "Mara Nicolaescu": {0:4,1:5},
+    "Marta Nicolaescu": {0:5,1:5},
+    "Mila Gunther": {0:4,1:5},
+    "Morgane Landman": {0:5,1:5},
+    "Nora Simko Guerrero": {0:6},
+    "Olivia Ostrowska": {0:5,1:5},
+    "Rosie Reynolds": {0:6,1:6},
+    "Sienna Keys": {0:7},
+    "Sophie Scharl": {0:4},
+    "Vivian Gao": {0:7,1:9},
+    "Yixin Xu": {0:6},
+    "Zoë Moore": {1:10}
+  };
+
+  // Single session so far (Sat 5 Sep 2026). Same 1-11 scale as Right Split; 6 = flat split.
+  var BOX_SPLIT_DATE = "Sat 5 Sep 2026";
+  var BOX_SPLIT = {
+    "Adala Kan-Dapaah": 3,
+    "Adela Stoian": 3,
+    "Alara Sapmaz": 6,
+    "Amelie Millar": 3,
+    "Arabella Joyce": 4,
+    "Beatrice Fielding": 4,
+    "Bella Vanstone": 4,
+    "Clara Stoian": 4,
+    "Darina Andossova": 4,
+    "Erika Kushnir": 4,
+    "Felicity Hilton": 3,
+    "Franki Chandler-Causon": 4,
+    "Gracie Keehan": 5,
+    "Hazeley Kalisch": 6,
+    "Holly Gosling": 3,
+    "Isabella Gerbi": 3,
+    "Jasmina Piasecka": 3,
+    "Jessica Brooks": 5,
+    "Joanna Yu": 4,
+    "Kiara Ramparsad": 1,
+    "Leah Brown": 3,
+    "Maia Boundy": 5,
+    "Maia Winter": 3,
+    "Mara Nicolaescu": 3,
+    "Marta Nicolaescu": 2,
+    "Mila Gunther": 4,
+    "Morgane Landman": 3,
+    "Nora Simko Guerrero": 3,
+    "Olivia Ostrowska": 4,
+    "Rosie Reynolds": 6,
+    "Sienna Keys": 5,
+    "Sophie Scharl": 3,
+    "Vivian Gao": 6,
+    "Yixin Xu": 6
   };
 
   // idx 0 = Sat 5 Sep 2026, idx 1 = Sat 3 Oct 2026.
@@ -611,7 +699,7 @@
     "Darina Andossova": {1: 229.65, 2: 215.62},
     "Elizabeth Whitelaw": {1: 192.78},
     "Elsie Jackson": {1: 393.76},
-    "Erika Kushnir": {1: 179.94},
+    "Erika Kushnir": {1: 179},
     "Eva Mei Lynam": {1: 243.97},
     "Felicity Hilton": {0: 227, 1: 229.52, 2: 151.03},
     "Franki Chandler-Causon": {1: 155.12},
@@ -710,7 +798,7 @@
     return new Date(m[3] ? +m[3] : 2026, month, +m[1]);
   }
   function latestSessionLabel() {
-    var allLabels = DATES.concat(SPRINT_DATES, PLANK_DATES, GB_HYPOXIC_DATES, GB_KICK_SET_DATES, [SPLITS_DATE, WALLSIT_DATE, BACK_FLEX_DATE]);
+    var allLabels = DATES.concat(SPRINT_DATES, PLANK_DATES, GB_HYPOXIC_DATES, GB_KICK_SET_DATES, RIGHT_SPLIT_DATES, LEFT_SPLIT_DATES, [BOX_SPLIT_DATE, WALLSIT_DATE, BACK_FLEX_DATE]);
     var best = null, bestDate = null;
     allLabels.forEach(function (label) {
       var d = parseSessionDateLabel(label);
@@ -724,7 +812,9 @@
     { id: "sprint", title: "50m Sprint Time", icon: "🏁", desc: "Times across four sessions, with a trend line for anyone who's sprinted more than once." },
     { id: "gbhypoxic", title: "GB Hypoxic Swim", icon: "🫁", desc: "Times across three sessions, with a trend line for anyone tested more than once." },
     { id: "gbkickset", title: "GB Kick Set", icon: "🦵", desc: "Times across two sessions, with a trend line for anyone tested more than once." },
-    { id: "splits", title: "Splits", icon: "🤸", desc: "Left leg, right leg and box split, measured against a flat split." },
+    { id: "right-split", title: "Right Leg Split", icon: "🤸", desc: "Right leg split, measured against a flat split, with a trend line for anyone tested more than once." },
+    { id: "left-split", title: "Left Leg Split", icon: "🤸", desc: "Left leg split, measured against a flat split, with a trend line for anyone tested more than once." },
+    { id: "box-split", title: "Box Split", icon: "🤸", desc: "Box split, measured against a flat split." },
     { id: "backflex", title: "Back Flexibility", icon: "🌉", desc: "Bridge distance between fingertips and heels, on a 1-8 scale. Higher is more flexible." },
     { id: "plank", title: "Plank Time", icon: "⏱️", desc: "How long each swimmer held their plank, with a trend line for anyone tested more than once. Capped at 3:00." },
     { id: "wallsit", title: "Wall Sit Time", icon: "🧱", desc: "How long each swimmer held their wall sit. Capped at 3:00." }
@@ -761,7 +851,23 @@
       text: "To improve your Wall Sit Time it's important to work on building strength in your leg muscles regularly and safely! Use the follow along video here to help you practice at home",
       youtube: "https://youtu.be/cIepyoO8e8I?si=IvWFN4oCsscRPtfd"
     },
-    splits: {
+    "right-split": {
+      text: "To improve on your splits it's important to stretch regularly and safely! Use the follow along stretching videos here to help you practice at home",
+      youtube: [
+        "https://youtu.be/yoWLPgwe9oc?si=kjX9HZuV2F20xubY",
+        "https://youtu.be/o68QhmpRgzU?si=4XQylKLJDs9ph-6G",
+        "https://youtu.be/jpJeMaOb2iM?si=XbEzBMh-Dvs6VHI0"
+      ]
+    },
+    "left-split": {
+      text: "To improve on your splits it's important to stretch regularly and safely! Use the follow along stretching videos here to help you practice at home",
+      youtube: [
+        "https://youtu.be/yoWLPgwe9oc?si=kjX9HZuV2F20xubY",
+        "https://youtu.be/o68QhmpRgzU?si=4XQylKLJDs9ph-6G",
+        "https://youtu.be/jpJeMaOb2iM?si=XbEzBMh-Dvs6VHI0"
+      ]
+    },
+    "box-split": {
       text: "To improve on your splits it's important to stretch regularly and safely! Use the follow along stretching videos here to help you practice at home",
       youtube: [
         "https://youtu.be/yoWLPgwe9oc?si=kjX9HZuV2F20xubY",
@@ -869,7 +975,7 @@
   // Names that show up in test results but aren't on the official roster above —
   // surfaced on the home page so they don't silently go missing.
   var UNROSTERED_WITH_DATA = Array.from(new Set(
-    Object.keys(FREESTYLE).concat(Object.keys(SPLITS), Object.keys(PLANK), Object.keys(WALLSIT), Object.keys(SPRINT), Object.keys(BACK_FLEX), Object.keys(GB_HYPOXIC), Object.keys(GB_KICK_SET))
+    Object.keys(FREESTYLE).concat(Object.keys(RIGHT_SPLIT), Object.keys(LEFT_SPLIT), Object.keys(BOX_SPLIT), Object.keys(PLANK), Object.keys(WALLSIT), Object.keys(SPRINT), Object.keys(BACK_FLEX), Object.keys(GB_HYPOXIC), Object.keys(GB_KICK_SET))
   )).filter(function (n) { return MASTER_NAMES.indexOf(n) === -1; }).sort(function (a, b) { return a.localeCompare(b); });
 
   var svgNS = "http:" + "//www.w3.org/2000/svg"; // written split so link-checkers don't flag this non-fetched XML namespace id as an insecure URL
@@ -894,13 +1000,16 @@
   }
   var SPLIT_SPREAD = (function () {
     var all = [];
-    Object.keys(SPLITS).forEach(function (n) {
-      ["left", "right", "box"].forEach(function (k) { if (SPLITS[n][k] !== undefined) all.push(SPLITS[n][k]); });
-    });
+    Object.keys(RIGHT_SPLIT).forEach(function (n) { Object.keys(RIGHT_SPLIT[n]).forEach(function (k) { all.push(RIGHT_SPLIT[n][k]); }); });
+    Object.keys(LEFT_SPLIT).forEach(function (n) { Object.keys(LEFT_SPLIT[n]).forEach(function (k) { all.push(LEFT_SPLIT[n][k]); }); });
+    Object.keys(BOX_SPLIT).forEach(function (n) { all.push(BOX_SPLIT[n]); });
     return Math.max.apply(null, all.map(function (s) { return Math.abs(s - 6); }));
   })();
   var SPLIT_DOMAIN_MIN = 6 - SPLIT_SPREAD, SPLIT_DOMAIN_MAX = 6 + SPLIT_SPREAD;
   function splitPosPct(score) { return ((score - SPLIT_DOMAIN_MIN) / (SPLIT_DOMAIN_MAX - SPLIT_DOMAIN_MIN)) * 100; }
+  function rightSplitPointsFor(name) { return pointsFor(RIGHT_SPLIT, name); }
+  function leftSplitPointsFor(name) { return pointsFor(LEFT_SPLIT, name); }
+  function fmtSplitScore(score) { return String(score); }
 
   function nameHref(n) { return "#swimmer/" + encodeURIComponent(n); }
   function testHref(id) { return "#test/" + id; }
@@ -1812,14 +1921,133 @@
     wireToggle(toggleBtn, chartBoard, tableBoard);
   }
 
-  function renderSplitsTest() {
-    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: "Splits" }]);
+  function renderSplitTrendTest(opts) {
+    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: opts.title }]);
     app.innerHTML = "";
-    app.appendChild(el("h1", null, "Splits — Left Leg, Right Leg & Box Split"));
-    app.appendChild(el("span", "date-chip", "Recorded " + SPLITS_DATE));
-    app.appendChild(el("p", "subtitle", "Each swimmer's split measured against a flat split. The marker's position shows how far off the floor (undersplit) or past flat (oversplit) they are."));
-    var improveSplits = buildImproveSection("splits");
-    if (improveSplits) app.appendChild(improveSplits);
+    app.appendChild(el("h1", null, opts.title + " — Progress Tracker"));
+    app.appendChild(el("span", "date-chip", "Sessions: " + opts.dates.join(" · ") + " 2026"));
+    app.appendChild(el("p", "subtitle", "Every swimmer's " + opts.titleLower + " across " + opts.dates.length + " sessions, measured against a flat split. Higher score = better."));
+    var improve = buildImproveSection(opts.improveId);
+    if (improve) app.appendChild(improve);
+
+    app.appendChild(el("div", "color-key",
+      "<span><span class='swatch' style='background:var(--critical)'></span>5 or lower</span>" +
+      "<span><span class='swatch' style='background:var(--warning)'></span>6 (flat)</span>" +
+      "<span><span class='swatch' style='background:var(--good)'></span>7 or higher</span>"));
+
+    var legend = el("div", "legend",
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--good)'></span> Improved</span>" +
+      "<span class='legend-item'><span class='legend-swatch' style='background:var(--critical)'></span> Got worse</span>" +
+      "<span class='legend-item'><span class='swatch' style='background:var(--neutral-mark)'></span> Single result / no change</span>");
+    app.appendChild(legend);
+
+    var toolbar = el("div", "toolbar");
+    var search = document.createElement("input");
+    search.className = "search"; search.type = "text"; search.placeholder = "Find a swimmer…"; search.autocomplete = "off";
+    var toggleBtn = document.createElement("button");
+    toggleBtn.className = "toggle-btn"; toggleBtn.type = "button"; toggleBtn.textContent = "Show as table";
+    toolbar.appendChild(search); toolbar.appendChild(toggleBtn);
+    app.appendChild(toolbar);
+
+    var xPos = [25, 75];
+    var chartBoard = el("div", "board");
+    var scroll = el("div", "board-scroll");
+    var rowMinWidth = gridRowMinWidth(opts.dates.length);
+    var headRow = el("div", "grid-row head-row gr-freestyle");
+    headRow.style.minWidth = rowMinWidth + "px";
+    headRow.appendChild(el("div", "head-cell", "Swimmer"));
+    var headDates = el("div", "head-dates");
+    opts.dates.forEach(function (d, i) {
+      var s = el("span", "head-date", d);
+      s.style.left = xPos[i] + "%";
+      headDates.appendChild(s);
+    });
+    var headMid = el("div", "head-cell"); headMid.appendChild(headDates);
+    headRow.appendChild(headMid);
+    headRow.appendChild(el("div", "head-delta", "Change"));
+    scroll.appendChild(headRow);
+
+    var rows = el("div");
+    var names = MASTER_NAMES.slice();
+    names.forEach(function (name) {
+      var points = opts.pointsFor(name);
+      var row = el("div", "grid-row row gr-freestyle");
+      row.style.minWidth = rowMinWidth + "px";
+      row.dataset.name = name.toLowerCase();
+      var nameCell = el("div", "name-cell");
+      var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
+      nameCell.appendChild(a);
+      var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
+      row.appendChild(nameCell);
+
+      var chartCell = el("div", "chart-cell");
+      var deltaCell;
+      if (!points) {
+        chartCell.appendChild(el("div", "gauge-missing", "Not recorded"));
+        deltaCell = el("div", "delta-cell delta-flat", "—");
+      } else {
+        var built = buildFreestyleRowSVG(points, { xPos: xPos, higherIsBetter: true, fmtFn: fmtSplitScore });
+        chartCell.appendChild(built.el);
+        if (points.length < 2) {
+          deltaCell = el("div", "delta-cell delta-flat", "—");
+        } else {
+          // Change arrow compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+          var recentPrev = points[points.length - 2].sec, recentLast = points[points.length - 1].sec;
+          var d = recentLast - recentPrev;
+          deltaCell = el("div", "delta-cell " + (d > 0 ? "delta-good" : d < 0 ? "delta-bad" : "delta-flat"));
+          deltaCell.textContent = (d > 0 ? "▲ " : d < 0 ? "▼ " : "– ") + Math.abs(d);
+        }
+      }
+      row.appendChild(chartCell);
+      row.appendChild(deltaCell);
+      rows.appendChild(row);
+    });
+    scroll.appendChild(rows); chartBoard.appendChild(scroll); app.appendChild(chartBoard);
+
+    var tableBoard = el("div", "board"); tableBoard.style.display = "none";
+    var tScroll = el("div", "board-scroll");
+    var table = document.createElement("table"); table.className = "table-view";
+    var thead = "<thead><tr><th>Swimmer</th>" + opts.dates.map(function (d) { return "<th>" + d + "</th>"; }).join("") + "<th>Change</th></tr></thead>";
+    var tbody = "<tbody>" + names.map(function (name) {
+      var points = opts.pointsFor(name);
+      var nameTd = document.createElement("td"); nameTd.textContent = name;
+      var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
+      if (!points) {
+        var emptyCells = opts.dates.map(function () { return "<td class='dash'>Not recorded</td>"; }).join("");
+        return "<tr>" + nameTd.outerHTML + emptyCells + "<td class='dash'>Not recorded</td></tr>";
+      }
+      var byIdx = {}; points.forEach(function (p) { byIdx[p.idx] = p.sec; });
+      var cells = opts.dates.map(function (d, i) {
+        if (byIdx[i] === undefined) return "<td class='dash'>—</td>";
+        return "<td class='num'><span class='swatch' style='background:" + splitColor(byIdx[i]) + "'></span>" + describeSplit(byIdx[i]) + " (" + byIdx[i] + ")</td>";
+      }).join("");
+      // Change compares only the two most recent results, not the earliest — older results stay recorded but aren't part of this comparison.
+      var d = points.length < 2 ? 0 : points[points.length - 1].sec - points[points.length - 2].sec;
+      var changeTxt = points.length < 2 ? "—" : (d > 0 ? "▲ " : d < 0 ? "▼ " : "– ") + Math.abs(d);
+      return "<tr>" + nameTd.outerHTML + cells + "<td class='num'>" + changeTxt + "</td></tr>";
+    }).join("") + "</tbody>";
+    table.innerHTML = thead + tbody;
+    tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
+
+    app.appendChild(el("p", "note", "Scores run 1 (furthest undersplit) through 6 (flat) to 11 (furthest oversplit seen); each step is ~10cm from a flat split."));
+
+    var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
+    wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
+    wireToggle(toggleBtn, chartBoard, tableBoard);
+  }
+
+  function renderRightSplitTest() {
+    renderSplitTrendTest({ title: "Right Leg Split", titleLower: "right leg split", dates: RIGHT_SPLIT_DATES, pointsFor: rightSplitPointsFor, improveId: "right-split" });
+  }
+
+  function renderOneLegSplitTest(opts) {
+    setNav([{ label: "All Tests & Swimmers", href: "#" }, { label: opts.title }]);
+    app.innerHTML = "";
+    app.appendChild(el("h1", null, opts.title));
+    app.appendChild(el("span", "date-chip", "Latest session: " + opts.date));
+    app.appendChild(el("p", "subtitle", "Each swimmer's " + opts.titleLower + " measured against a flat split. The marker's position shows how far off the floor (undersplit) or past flat (oversplit) they are."));
+    var improve = buildImproveSection(opts.improveId);
+    if (improve) app.appendChild(improve);
 
     app.appendChild(el("div", "scale-key",
       "<span>40cm undersplit</span><span class='key-track'><span class='key-flat'></span></span><span>40cm oversplit</span>" +
@@ -1828,6 +2056,10 @@
       "<span><span class='swatch' style='background:var(--critical)'></span>5 or lower</span>" +
       "<span><span class='swatch' style='background:var(--warning)'></span>6 (flat)</span>" +
       "<span><span class='swatch' style='background:var(--good)'></span>7 or higher</span>"));
+
+    var names = MASTER_NAMES.slice();
+    var recordedCount = names.filter(function (n) { return opts.data[n] !== undefined; }).length;
+    app.appendChild(el("div", "legend", recordedCount + " / " + names.length + " swimmers have a recorded result so far."));
 
     var toolbar = el("div", "toolbar");
     var search = document.createElement("input");
@@ -1839,25 +2071,21 @@
 
     var chartBoard = el("div", "board");
     var scroll = el("div", "board-scroll");
-    var headRow = el("div", "grid-row head-row gr-splits");
+    var headRow = el("div", "grid-row head-row gr-onecol");
     headRow.appendChild(el("div", "head-cell", "Swimmer"));
-    ["Left Leg Split", "Right Leg Split", "Box Split"].forEach(function (t) {
-      headRow.appendChild(el("div", "head-cell split-head", t + "<span class='head-flat-tick'></span>"));
-    });
+    headRow.appendChild(el("div", "head-cell", "<div style='display:flex; justify-content:space-between;'><span>Undersplit</span><span>Oversplit</span></div>"));
     scroll.appendChild(headRow);
 
     var rows = el("div");
-    var names = MASTER_NAMES.slice();
     names.forEach(function (name) {
-      var row = el("div", "grid-row row gr-splits");
+      var row = el("div", "grid-row row gr-onecol");
       row.dataset.name = name.toLowerCase();
       var nameCell = el("div", "name-cell");
       var a = document.createElement("a"); a.href = nameHref(name); a.textContent = name;
       nameCell.appendChild(a);
       var nameCellDot = memberDot(name); if (nameCellDot) nameCell.appendChild(nameCellDot);
       row.appendChild(nameCell);
-      var swimmerSplits = SPLITS[name];
-      ["left", "right", "box"].forEach(function (k) { row.appendChild(buildSplitGauge(swimmerSplits ? swimmerSplits[k] : undefined)); });
+      row.appendChild(buildSplitGauge(opts.data[name]));
       rows.appendChild(row);
     });
     scroll.appendChild(rows); chartBoard.appendChild(scroll); app.appendChild(chartBoard);
@@ -1865,26 +2093,30 @@
     var tableBoard = el("div", "board"); tableBoard.style.display = "none";
     var tScroll = el("div", "board-scroll");
     var table = document.createElement("table"); table.className = "table-view";
-    var thead = "<thead><tr><th>Swimmer</th><th>Left Leg Split</th><th>Right Leg Split</th><th>Box Split</th></tr></thead>";
+    var thead = "<thead><tr><th>Swimmer</th><th>" + opts.title + "</th></tr></thead>";
     var tbody = "<tbody>" + names.map(function (name) {
       var nameTd = document.createElement("td"); nameTd.textContent = name;
       var nameTdDot = memberDot(name); if (nameTdDot) nameTd.appendChild(nameTdDot);
-      var swimmerSplits = SPLITS[name];
-      var cells = ["left", "right", "box"].map(function (k) {
-        var s = swimmerSplits ? swimmerSplits[k] : undefined;
-        if (s === undefined) return "<td class='dash'>Not recorded</td>";
-        return "<td class='num'><span class='swatch' style='background:" + splitColor(s) + "'></span>" + describeSplit(s) + " (" + s + ")</td>";
-      }).join("");
-      return "<tr>" + nameTd.outerHTML + cells + "</tr>";
+      var s = opts.data[name];
+      var cellHtml = s === undefined ? "<td class='dash'>Not recorded</td>" : "<td class='num'><span class='swatch' style='background:" + splitColor(s) + "'></span>" + describeSplit(s) + " (" + s + ")</td>";
+      return "<tr>" + nameTd.outerHTML + cellHtml + "</tr>";
     }).join("") + "</tbody>";
     table.innerHTML = thead + tbody;
     tScroll.appendChild(table); tableBoard.appendChild(tScroll); app.appendChild(tableBoard);
 
-    app.appendChild(el("p", "note", "Scores run 1 (furthest undersplit) through 6 (flat) to 11 (furthest oversplit seen); each step is ~10cm from a flat split."));
+    app.appendChild(el("p", "note", "Scores run 1 (furthest undersplit) through 6 (flat) to 11 (furthest oversplit seen); each step is ~10cm from a flat split. Sorted alphabetically."));
 
     var rowEls = Array.prototype.slice.call(rows.querySelectorAll(".row"));
     wireSearch(search, rowEls, function (r, q) { return r.dataset.name.indexOf(q) !== -1; });
     wireToggle(toggleBtn, chartBoard, tableBoard);
+  }
+
+  function renderLeftSplitTest() {
+    renderSplitTrendTest({ title: "Left Leg Split", titleLower: "left leg split", dates: LEFT_SPLIT_DATES, pointsFor: leftSplitPointsFor, improveId: "left-split" });
+  }
+
+  function renderBoxSplitTest() {
+    renderOneLegSplitTest({ title: "Box Split", titleLower: "box split", date: BOX_SPLIT_DATE, data: BOX_SPLIT, improveId: "box-split" });
   }
 
   function renderWallSitTest() {
@@ -2189,24 +2421,52 @@
     bfCard.appendChild(bfLink);
     cards.appendChild(bfCard);
 
-    // Splits card
-    var spCard = el("div", "profile-card");
-    spCard.appendChild(el("h3", null, "Splits"));
-    var splitVals = SPLITS[name];
-    if (!splitVals) {
-      spCard.appendChild(el("p", "profile-empty", "Not recorded."));
+    // Right Leg Split card
+    var rsCard = el("div", "profile-card");
+    rsCard.appendChild(el("h3", null, "Right Leg Split"));
+    var rsPoints = rightSplitPointsFor(name);
+    if (!rsPoints) {
+      rsCard.appendChild(el("p", "profile-empty", "Not recorded."));
     } else {
-      spCard.appendChild(el("p", "p-desc", "Flat split = 6. Below is undersplit, above is oversplit."));
-      [["left", "Left leg"], ["right", "Right leg"], ["box", "Box split"]].forEach(function (pair) {
-        var rowWrap = el("div", "split-row-single");
-        rowWrap.appendChild(el("span", "s-label", pair[1]));
-        rowWrap.appendChild(buildSplitGauge(splitVals[pair[0]]));
-        spCard.appendChild(rowWrap);
-      });
+      rsCard.appendChild(el("p", "p-desc", "Flat split = 6. Higher is better."));
+      var rsChartWrap = el("div", "chart-cell"); rsChartWrap.style.height = "70px";
+      var rsBuilt = buildFreestyleRowSVG(rsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore });
+      rsChartWrap.appendChild(rsBuilt.el);
+      rsCard.appendChild(rsChartWrap);
     }
-    var spLink = document.createElement("a"); spLink.className = "p-link"; spLink.href = testHref("splits"); spLink.textContent = "See full Splits tracker →";
-    spCard.appendChild(spLink);
-    cards.appendChild(spCard);
+    var rsLink = document.createElement("a"); rsLink.className = "p-link"; rsLink.href = testHref("right-split"); rsLink.textContent = "See full Right Leg Split tracker →";
+    rsCard.appendChild(rsLink);
+    cards.appendChild(rsCard);
+
+    // Left Leg Split card
+    var lsCard = el("div", "profile-card");
+    lsCard.appendChild(el("h3", null, "Left Leg Split"));
+    var lsPoints = leftSplitPointsFor(name);
+    if (!lsPoints) {
+      lsCard.appendChild(el("p", "profile-empty", "Not recorded."));
+    } else {
+      lsCard.appendChild(el("p", "p-desc", "Flat split = 6. Higher is better."));
+      var lsChartWrap = el("div", "chart-cell"); lsChartWrap.style.height = "70px";
+      var lsBuilt = buildFreestyleRowSVG(lsPoints, { height: 70, xPos: [25, 75], higherIsBetter: true, fmtFn: fmtSplitScore });
+      lsChartWrap.appendChild(lsBuilt.el);
+      lsCard.appendChild(lsChartWrap);
+    }
+    var lsLink = document.createElement("a"); lsLink.className = "p-link"; lsLink.href = testHref("left-split"); lsLink.textContent = "See full Left Leg Split tracker →";
+    lsCard.appendChild(lsLink);
+    cards.appendChild(lsCard);
+
+    // Box Split card
+    var bxCard = el("div", "profile-card");
+    bxCard.appendChild(el("h3", null, "Box Split"));
+    if (BOX_SPLIT[name] === undefined) {
+      bxCard.appendChild(el("p", "profile-empty", "Not recorded."));
+    } else {
+      bxCard.appendChild(el("p", "p-desc", "Flat split = 6. Below is undersplit, above is oversplit."));
+      bxCard.appendChild(buildSplitGauge(BOX_SPLIT[name]));
+    }
+    var bxLink = document.createElement("a"); bxLink.className = "p-link"; bxLink.href = testHref("box-split"); bxLink.textContent = "See full Box Split tracker →";
+    bxCard.appendChild(bxLink);
+    cards.appendChild(bxCard);
 
     // Plank card
     var pkCard = el("div", "profile-card");
@@ -2252,7 +2512,9 @@
       if (parts[1] === "gbhypoxic") return renderGBHypoxicTest();
       if (parts[1] === "gbkickset") return renderGBKickSetTest();
       if (parts[1] === "backflex") return renderBackFlexTest();
-      if (parts[1] === "splits") return renderSplitsTest();
+      if (parts[1] === "right-split") return renderRightSplitTest();
+      if (parts[1] === "left-split") return renderLeftSplitTest();
+      if (parts[1] === "box-split") return renderBoxSplitTest();
       if (parts[1] === "plank") return renderPlankTest();
       if (parts[1] === "wallsit") return renderWallSitTest();
     }
